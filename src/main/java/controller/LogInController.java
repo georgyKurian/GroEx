@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import model.User;
 import java.util.List;
@@ -17,7 +18,7 @@ import javax.inject.Named;
  */
 @Named
 @SessionScoped
-public class LogInController {
+public class LogInController implements Serializable{
 
     private List<User> users;
     private User currentUser;

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Sign Up</title>
+    </h:head>
+    <h:body>
+        <h:form>
+        First Name<h:inputText value="#{logInController.currentUser.first_name}"/>
+        Last Name<h:inputText value="#{logInController.currentUser.last_name}"/>
+        Email Id<h:inputText value="#{logInController.currentUser.email_id}"/>
+        Password <h:inputText value="#{logInController.currentUser.password}"/>
+        
+        <h:commandButton value="Submit" action="#{logInController.addUser()}"/>
+        </h:form>
+        <h:dataTable value="#{logInController.users}" var="user">
+            <h:column>
+                #{user.first_name}
+                #{user.last_name}
+                #{user.email_id}
+                #{user.password}
+            </h:column>
+        </h:dataTable>
+    </h:body>
+</html>
+
