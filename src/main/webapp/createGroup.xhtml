@@ -8,7 +8,9 @@
     <h:body>
         <h:form>
             Group Name <h:inputText value="#{groupController.currentGroup.group_name}"/>
+            
             <h:commandButton value="Submit" action="#{groupController.addGroup()}"/>
+            
         </h:form>
         <h:dataTable value="#{groupController.groupList}" var="group">
             <h:column>

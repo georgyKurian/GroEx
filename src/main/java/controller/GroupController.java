@@ -8,18 +8,16 @@ package controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import model.Group;
-import model.GroupMem;
 
 /**
  *
  * @author Georgi
  */
 @Named
-@ApplicationScoped
+@SessionScoped
 public class GroupController implements Serializable{
     private List<Group> groupList;
     private Group currentGroup;
@@ -49,6 +47,44 @@ public class GroupController implements Serializable{
     public void addGroup(){
         groupList.add(currentGroup);
         currentGroup = new Group();
+        
+    }
+    
+    public Group getGroupById(int groupId){
+        for(Group group:groupList){
+            if(group.getGroup_id()== groupId){
+                return group;
+            }
+        }
+        return null;
+    }
+    
+    public boolean deleteGroup(){
+        for(Group group:groupList){
+            if(group.getGroup_id()==currentGroup.getGroup_id()){
+                groupList.remove(group);
+                return true;
+            }
+        }
+        currentGroup = new Group();
+        return false;
+    }
+    
+    public Group editGroup(){
+        for(Group group:groupList){
+            if(group.getGroup_id() == currentGroup.getGroup_id()){
+                group.setGroup_name(currentGroup.getGroup_name());
+                return group;
+            }
+        }
+        currentGroup = new Group();
+        return null;
+    }
+    
+    public String getGroupHomePage(Group group)
+    {
+        setCurrentGroup(group);
+        return "groupHome";
     }
         
 }

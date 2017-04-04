@@ -10,7 +10,7 @@ package model;
  *
  * @author c0687174
  */
-public class GroupMem {
+public class GroupMember {
     private int group_id;
     private int user_id;
 
