@@ -18,14 +18,14 @@ import javax.inject.Named;
  */
 @Named
 @SessionScoped
-public class LogInController implements Serializable{
+public class LogInController implements Serializable {
 
     private List<User> users;
     private User currentUser;
 
     public LogInController() {
-           users = new ArrayList<>();
-           currentUser = new User();
+        users = new ArrayList<>();
+        currentUser = new User();
     }
 
     public List<User> getUsers() {

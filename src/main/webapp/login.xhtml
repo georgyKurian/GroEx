@@ -7,9 +7,9 @@
     </h:head>
     <h:body>
         <h:form>
-            Email Id <h:inputText value="#{logInController.currentUser.email_id}"/>
-            Password <h:inputSecret value="#{logInController.currentUser.password}"/>
-            <h:commandButton value="Submit" action="#{logInController.addUser()}"/>  
+            Email Id <h:inputText value="#{userController.currentUser.email_id}"/>
+            Password <h:inputSecret value="#{userController.currentUser.password}"/>
+            <h:commandButton value="Submit" action="#{userController.doLogIn()}"/>  
         </h:form>
     </h:body>
 </html>
