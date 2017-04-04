@@ -83,7 +83,7 @@ public class GroupController implements Serializable{
     
     public String getGroupHomePage(Group group)
     {
-        setCurrentGroup(group);
+        currentGroup = group;
         return "groupHome";
     }
         

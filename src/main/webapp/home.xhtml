@@ -7,11 +7,18 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-      
-        <c:forEach var="group" items="#{groupController.groupList}">
-            <h:link value="#{group.group_name}" outcome="#{groupController.getGroupHomePage(group)}"/><br/>
-        </c:forEach>
-      
+
+        <div>
+            <h:link value="New group" outcome="createGroup" />
+        </div>
+        <div>
+            <h2>Groups</h2>
+            <h:form>
+            <c:forEach var="group" items="#{groupController.groupList}">
+                <h:commandLink value="#{group.group_name}" action="#{groupController.getGroupHomePage(group)}"/><br/>
+            </c:forEach>
+            </h:form>
+        </div>
     </h:body>
 </html>
 

@@ -48,6 +48,16 @@ public class GroupMemberController implements Serializable {
         groupMemberList.add(currentGroupMember);
         currentGroupMember = new GroupMember();
     }
+    
+    public List<GroupMember> getgroupMembersByGroupId(int groupId) {
+        List<GroupMember> refinedGroupMembers = new ArrayList<>();
+        for (GroupMember gMember : groupMemberList) {
+            if (gMember.getGroup_id() == groupId) {
+                refinedGroupMembers.add(gMember);                
+            }
+        }
+        return refinedGroupMembers;
+    }
 
     public boolean deleteWithGroupIdAndUserId(int groupId, int userId) {
         boolean deleted = false;
