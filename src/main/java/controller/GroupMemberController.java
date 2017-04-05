@@ -6,10 +6,17 @@
 package controller;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import model.Group;
 import model.GroupMember;
 
 /**
@@ -24,8 +31,8 @@ public class GroupMemberController implements Serializable {
     GroupMember currentGroupMember;
 
     public GroupMemberController() {
-        groupMemberList = new ArrayList<>();
         currentGroupMember = new GroupMember();
+        refreshFromDB();
     }
 
     public List<GroupMember> getGroupMemberList() {
@@ -57,6 +64,16 @@ public class GroupMemberController implements Serializable {
             }
         }
         return refinedGroupMembers;
+    }
+    
+    public boolean deleteCurrentGroupmember() {
+        for (GroupMember gMember : groupMemberList) {
+            if (gMember.getGroup_id() == currentGroupMember.getGroup_id() & gMember.getUser_id() == currentGroupMember.getUser_id()) {
+                groupMemberList.remove(gMember);
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean deleteWithGroupIdAndUserId(int groupId, int userId) {
@@ -90,5 +107,30 @@ public class GroupMemberController implements Serializable {
             }
         }
         return deleted;
+    }
+    
+    public String delete(GroupMember groupmember){
+        currentGroupMember = groupmember;
+        deleteCurrentGroupmember();
+        return "groupHome";
+    }
+    
+    public void refreshFromDB() {
+        groupMemberList = new ArrayList<>();
+        try {
+            GroupMember groupMember;
+            Connection con = DBUtils.getConnection();
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM group_members");
+            ResultSet resultSet = pstm.executeQuery();
+            while(resultSet.next()){
+                groupMember = new GroupMember(
+                        resultSet.getInt("group_id"),
+                        resultSet.getInt("user_id"));
+                groupMemberList.add(groupMember);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }

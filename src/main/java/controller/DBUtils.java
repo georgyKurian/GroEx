@@ -44,16 +44,16 @@ public class DBUtils {
 
     public static Connection getConnection() throws SQLException {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        String hostname = "GoEx";
+        String hostname = "localhost";
         String port = "3306";
-        String dbname = "JSFBlog";
-        String username = "GoEx";
-        String password = "April2017";
+        String dbname = "groex";
+        String username = "root";
+        String password = "";
         String jdbc = String.format("jdbc:mysql://%s:%s/%s", hostname, port, dbname);
         return DriverManager.getConnection(jdbc, username, password);
     }

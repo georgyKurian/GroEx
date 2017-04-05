@@ -6,9 +6,16 @@
 package controller;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import model.User;
 
@@ -17,9 +24,9 @@ import model.User;
  * @author dilip
  */
 @Named
-@ApplicationScoped
+@SessionScoped
 public class UserController implements Serializable {
-
+    
     private boolean IsLoggedIn;
 
     private List<User> userList;
@@ -27,8 +34,8 @@ public class UserController implements Serializable {
 
     public UserController() {
         IsLoggedIn = false;
-        userList = new ArrayList<>();
         currentUser = new User();
+        refreshFromDB();
     }
 
     public boolean isIsLoggedIn() {
@@ -97,6 +104,28 @@ public class UserController implements Serializable {
             }
         }
         return "login";
+    }
+
+    public void refreshFromDB() {
+        userList = new ArrayList<>();
+        try {
+            User user;
+            Connection con = DBUtils.getConnection();
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM user");
+            ResultSet resultSet = pstm.executeQuery();
+            while(resultSet.next()){
+                user = new User(
+                        resultSet.getInt("user_id"), 
+                        resultSet.getString("email_id"), 
+                        resultSet.getString("password"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name"));
+                userList.add(user);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }

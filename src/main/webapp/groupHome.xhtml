@@ -12,12 +12,19 @@
         </div>
         <div>
             <h3>Group Members</h3>
-            <c:forEach var="eachMember" items="#{groupMemberController.getgroupMembersByGroupId(groupController.currentGroup.group_id)}">
-            <div>
-                <div>#{eachMember.user_id}</div>
-            </div>
-            </c:forEach>
+            <h:form>
+                <c:forEach var="eachMember" items="#{groupMemberController.getgroupMembersByGroupId(groupController.currentGroup.group_id)}">
+                    <div>
+                        <div style="float:left;">
+                                #{userController.getUserById(eachMember.user_id).first_name}&nbsp;#{userController.getUserById(eachMember.user_id).last_name}
+                        </div>
+                        <div style="float:left;">
+                                <h:commandLink value="Delete" action="#{groupMemberController.delete(eachMember)}"/> 
+                        </div>
+                        <br/>
+                    </div>
+                </c:forEach>
+            </h:form>
         </div>
     </h:body>
 </html>
-

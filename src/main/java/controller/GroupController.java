@@ -6,8 +6,14 @@
 package controller;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import model.Group;
@@ -21,11 +27,11 @@ import model.Group;
 public class GroupController implements Serializable{
     private List<Group> groupList;
     private Group currentGroup;
-
-    
+            
     public GroupController() {
-        groupList = new ArrayList<>();
         currentGroup = new Group();
+        refreshFromDB();
+        
     }
 
     public List<Group> getGroupList() {
@@ -46,8 +52,7 @@ public class GroupController implements Serializable{
     
     public void addGroup(){
         groupList.add(currentGroup);
-        currentGroup = new Group();
-        
+        currentGroup = new Group();        
     }
     
     public Group getGroupById(int groupId){
@@ -85,6 +90,26 @@ public class GroupController implements Serializable{
     {
         currentGroup = group;
         return "groupHome";
+    }
+    
+    public void refreshFromDB() {
+        groupList = new ArrayList<>();
+        try {
+            Group group;
+            Connection con = DBUtils.getConnection();
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM groups");
+            ResultSet resultSet = pstm.executeQuery();
+            while(resultSet.next()){
+                group = new Group(
+                        resultSet.getInt("group_id"),
+                        resultSet.getString("group_name"));
+                        
+                groupList.add(group);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
         
 }
