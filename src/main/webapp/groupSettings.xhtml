@@ -2,20 +2,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <div style="float:left;">
-            <div style="float:left;">
-                <h2>#{groupController.currentGroup.group_name}</h2>
-            </div>
-            <div style="float:left;">
-                <h:link value="Settings" outcome="groupSettings"/>
-            </div>
+        <div>
+            <h2>
+                <h:form>
+                <h:inputText value="#{groupController.currentGroup.group_name}" id="groupName">
+                    <f:ajax execute="groupName" event="change"/>
+                </h:inputText>
+                </h:form>
+            </h2>
         </div>
-        <div style="float:left;">
+        <div>
             <h3>Group Members</h3>
             <h:form>
                 <c:forEach var="eachMember" items="#{groupMemberController.getgroupMembersByGroupId(groupController.currentGroup.group_id)}">
@@ -23,7 +25,15 @@
                         <div style="float:left;">
                                 #{userController.getUserById(eachMember.user_id).first_name}&nbsp;#{userController.getUserById(eachMember.user_id).last_name}
                         </div>
+                        <div style="float:left;">
+                                <h:commandLink value="Delete" action="#{groupMemberController.delete(eachMember)}"/> 
+                        </div>
                         <br/>
+                    </div>
+                    <div style="float:left;">
+                        <h:form>    
+                            <h:inputText  
+                        </h:form>
                     </div>
                 </c:forEach>
             </h:form>

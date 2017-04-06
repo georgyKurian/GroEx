@@ -31,8 +31,10 @@ public class UserController implements Serializable {
 
     private List<User> userList;
     private User currentUser;
+    private String searchPattern;
 
     public UserController() {
+        searchPattern = "";
         IsLoggedIn = false;
         currentUser = new User();
         refreshFromDB();
@@ -105,6 +107,7 @@ public class UserController implements Serializable {
         }
         return "login";
     }
+    
 
     public void refreshFromDB() {
         userList = new ArrayList<>();
