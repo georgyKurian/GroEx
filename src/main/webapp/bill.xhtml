@@ -10,7 +10,7 @@
          <h:form>
              Bill Id <h:inputText value="#{billController.currentBill.bill_id}"/>
              Group Id <h:inputText value="#{billController.currentBill.group_id}"/>
-             Bill Description <h:inputText value="#{billController.currentBill.bill_des}"/>
+             Bill Description <h:inputText value="#{billController.currentBill.bill_description}"/>
              Bill Amount <h:inputText value="#{billController.currentBill.bill_amount}"/>
              Bill Date <h:inputText value="#{billController.currentBill.bill_date}">
                  <f:convertDateTime pattern="dd/MM/yyyy"/>;
@@ -27,7 +27,7 @@
                 #{bill.group_id}
             </h:column>
             <h:column>
-                #{bill.bill_des}
+                #{bill.bill_description}
             </h:column>
             <h:column>
                 #{bill.bill_amount}

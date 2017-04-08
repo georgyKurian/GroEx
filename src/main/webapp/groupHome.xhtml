@@ -19,6 +19,26 @@
              <div style="float:left;">
                 <h:link value="Add Bill" outcome="addBill"/>
             </div>
+            <div>
+                <c:set var="totalExpense" value="#{billController.getTotalExpenseByGroupId(groupController.currentGroup.group_id)}"/>
+                <c:set var="noOfMembers" value="#{groupMemberController.getNumberOfMembersByGroupId(groupController.currentGroup.group_id)}"/>
+                <c:set var="individualExpense" value="#{totalExpense/noOfMembers}"/>
+                <c:set var="contribution" value="#{billController.getTotalExpenseByGroupIdAndUserId(groupController.currentGroup.group_id, userController.currentUser.user_id)}"/>
+                <c:set var="balance" value="#{individualExpense-contribution}"/>
+                Expense: 
+                <c:if test="#{balance lt 0}">
+                    <h:outputText value="#{balance*-1}">
+                        <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
+                    </h:outputText>
+                </c:if>
+                <c:if test="#{balance gt 0}">
+                    <h:outputText value="#{balance}">
+                        <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
+                    </h:outputText>
+                </c:if>
+                
+                
+            </div>
         </div>
         <!-- Group name block end here -->
         <div style="">

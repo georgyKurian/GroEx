@@ -115,6 +115,16 @@ public class GroupMemberController implements Serializable {
         return "groupHome?faces-redirect=true";
     }
     
+    public int getNumberOfMembersByGroupId(int groupId){
+        int count = 0;
+        for (GroupMember gMember : groupMemberList) {
+            if (gMember.getGroup_id() == groupId) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
     public void refreshFromDB() {
         groupMemberList = new ArrayList<>();
         try {

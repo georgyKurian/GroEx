@@ -81,6 +81,28 @@ public class BillController implements Serializable {
         }
         return false;
     }
+    
+    public double getTotalExpenseByGroupId(int groupId)
+    {
+        double total = 0.0;
+         for (Bill b : billList) {
+            if (b.getGroup_id()== groupId) {
+                total += b.getBill_amount();
+            }
+        }
+        return total;
+    }
+    
+    public double getTotalExpenseByGroupIdAndUserId(int groupId,int userId)
+    {
+        double total = 0.0;
+         for (Bill b : billList) {
+            if (b.getGroup_id()== groupId & b.getUser_id() == userId) {
+                total += b.getBill_amount();
+            }
+        }
+        return total;
+    }
 
     public void refreshFromDB() {
         billList = new ArrayList<>();
