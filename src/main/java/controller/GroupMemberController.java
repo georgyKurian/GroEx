@@ -112,7 +112,7 @@ public class GroupMemberController implements Serializable {
     public String delete(GroupMember groupmember){
         currentGroupMember = groupmember;
         deleteCurrentGroupmember();
-        return "groupHome";
+        return "groupHome?faces-redirect=true";
     }
     
     public void refreshFromDB() {
