@@ -17,7 +17,7 @@ public class Bill {
     private int bill_id;
     private int group_id;
     private int user_id;
-    private String bill_des;
+    private String bill_description;
     private double bill_amount;
     private Date bill_date;
     private String bill_type;
@@ -29,7 +29,7 @@ public class Bill {
         this.bill_id = bill_id;
         this.group_id = group_id;
         this.user_id = user_id;
-        this.bill_des = bill_des;
+        this.bill_description = bill_des;
         this.bill_amount = bill_amount;
         this.bill_date = bill_date;
         this.bill_type = bill_type;
@@ -60,12 +60,12 @@ public class Bill {
         this.group_id = group_id;
     }
 
-    public String getBill_des() {
-        return bill_des;
+    public String getBill_description() {
+        return bill_description;
     }
 
-    public void setBill_des(String bill_des) {
-        this.bill_des = bill_des;
+    public void setBill_description(String bill_description) {
+        this.bill_description = bill_description;
     }
 
     public double getBill_amount() {
