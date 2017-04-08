@@ -14,31 +14,16 @@
                 <h2>#{groupController.currentGroup.group_name}</h2>
             </div>
             <div style="float:left;">
-                <h:link value="Settings" outcome="groupSettings"/>
+                <h:button  value="Settings" outcome="groupSettings"/>
             </div>
-             <div style="float:left;">
-                <h:link value="Add Bill" outcome="addBill"/>
+            <div style="float:left;">
+                <h:button value="Settle Up" outcome="settleUp"/>
             </div>
-            <div>
-                <c:set var="totalExpense" value="#{billController.getTotalExpenseByGroupId(groupController.currentGroup.group_id)}"/>
-                <c:set var="noOfMembers" value="#{groupMemberController.getNumberOfMembersByGroupId(groupController.currentGroup.group_id)}"/>
-                <c:set var="individualExpense" value="#{totalExpense/noOfMembers}"/>
-                <c:set var="contribution" value="#{billController.getTotalExpenseByGroupIdAndUserId(groupController.currentGroup.group_id, userController.currentUser.user_id)}"/>
-                <c:set var="balance" value="#{individualExpense-contribution}"/>
-                Expense: 
-                <c:if test="#{balance lt 0}">
-                    <h:outputText value="#{balance*-1}">
-                        <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
-                    </h:outputText>
-                </c:if>
-                <c:if test="#{balance gt 0}">
-                    <h:outputText value="#{balance}">
-                        <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
-                    </h:outputText>
-                </c:if>
-                
-                
+            <div style="float:left;">
+                <h:button value="Add Bill" outcome="addBill"/>
             </div>
+
+
         </div>
         <!-- Group name block end here -->
         <div style="">
@@ -51,37 +36,105 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Name</f:facet>
-                    #{userController.getUserById(bill.user_id).first_name}
-                    #{userController.getUserById(bill.user_id).last_name}
+                        #{userController.getUserById(bill.user_id).first_name}
+                        #{userController.getUserById(bill.user_id).last_name}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Description</f:facet>
-                    #{bill.bill_description}
+                        #{bill.bill_description}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Amount</f:facet>
-                    #{bill.bill_amount}
+                    <h:outputText value="#{bill.bill_amount}">
+                        <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
+                    </h:outputText>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Type</f:facet>
-                    #{bill.bill_type}
+                        #{bill.bill_type}
+                </h:column>
+                <h:column>
+                    <h:form>
+                        <h:commandLink value="Edit" action="#{billController.edit(bill)}"/> 
+                    </h:form>
+                </h:column>
+                <h:column>
+                    <h:form>
+                        <h:commandLink value="Delete" action="#{billController.delete(bill)}"/> 
+                    </h:form>
                 </h:column>
             </h:dataTable>
         </div>
-        <!-- Group members block start here -->
-        <div style="float:right;">
-            <h3>Group Members</h3>
-            <h:form>
-                <c:forEach var="eachMember" items="#{groupMemberController.getgroupMembersByGroupId(groupController.currentGroup.group_id)}">
-                    <div>
-                        <div style="float:left;">
-                                #{userController.getUserById(eachMember.user_id).first_name}&nbsp;#{userController.getUserById(eachMember.user_id).last_name}
-                        </div>
-                        <br/>
-                    </div>
-                </c:forEach>
-            </h:form>
+        <div style="float:right;width:50%;">
+            <h2>Summary</h2>
+            <div>
+                <c:set var="totalExpense" value="#{billController.getTotalExpenseByGroupId(groupController.currentGroup.group_id)}"/>
+                <c:set var="noOfMembers" value="#{groupMemberController.getNumberOfMembersByGroupId(groupController.currentGroup.group_id)}"/>
+                <c:set var="individualExpense" value="#{totalExpense/noOfMembers}"/>
+                <c:set var="contribution" value="#{billController.getTotalExpenseByGroupIdAndUserId(groupController.currentGroup.group_id, userController.currentUser.user_id)}"/>
+                <c:set var="balance" value="#{individualExpense-contribution}"/>
+
+                <c:if test="#{balance lt 0}">
+                    <label>You are Owed : </label>
+                    <h:outputText value="#{balance*-1}">
+                        <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
+                    </h:outputText>
+                </c:if>
+                <c:if test="#{balance gt 0}">
+                    <label>You Owe : </label>
+                    <h:outputText value="#{balance}">
+                        <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
+                    </h:outputText>
+                </c:if>
+                <c:if test="#{balance eq 0}">
+                    <label> settled up </label>
+                </c:if>
+            </div>
+
+            <!-- Group members block start here -->
+            <div>
+                <h3>Group Members</h3>
+                <h:form>
+                    <c:forEach var="eachMember" items="#{groupMemberController.getgroupMembersByGroupId(groupController.currentGroup.group_id)}">
+                        <c:if test="#{eachMember.user_id != userController.currentUser.user_id}">
+
+                            <div>
+                                <div style="float:left;">
+
+                                </div>
+                                <div>
+                                    <c:set var="balance" value="#{individualExpense-billController.getTotalExpenseByGroupIdAndUserId(groupController.currentGroup.group_id, eachMember.user_id)}"/>
+                                    <label class="name">
+                                        #{userController.getUserById(eachMember.user_id).first_name}&nbsp;#{userController.getUserById(eachMember.user_id).last_name}
+                                    </label>
+
+                                    <c:if test="#{balance lt 0}">
+                                        <label> gets back </label>
+                                        <label class="money">
+                                            <h:outputText value="#{balance*-1}">
+                                                <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
+                                            </h:outputText>
+                                        </label>
+                                    </c:if>
+                                    <c:if test="#{balance gt 0}">
+                                        <label> owes </label>
+                                        <label class="money">
+                                            <h:outputText value="#{balance}">
+                                                <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
+                                            </h:outputText>
+                                        </label>
+                                    </c:if>
+                                    <c:if test="#{balance eq 0}">
+                                        <label> settled up </label>
+                                    </c:if>
+                                </div>
+                                <br/>
+                            </div>
+                        </c:if>
+                    </c:forEach>
+                </h:form>
+            </div>
+            <!-- Group members block end here -->
         </div>
-        <!-- Group members block end here -->
     </h:body>
 </html>
