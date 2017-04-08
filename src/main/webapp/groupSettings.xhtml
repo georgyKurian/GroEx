@@ -3,7 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:a4j="http://richfaces.org/a4j">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
@@ -11,31 +13,37 @@
         <div>
             <h2>
                 <h:form>
-                <h:inputText value="#{groupController.currentGroup.group_name}" id="groupName">
-                    <f:ajax execute="groupName" event="change"/>
-                </h:inputText>
+                    <h:inputText value="#{groupController.currentGroup.group_name}" id="groupName">
+                        <f:ajax execute="groupName" event="change"/>
+                    </h:inputText>
                 </h:form>
             </h2>
         </div>
-        <div>
+        <div id="groupList">
             <h3>Group Members</h3>
             <h:form>
                 <c:forEach var="eachMember" items="#{groupMemberController.getgroupMembersByGroupId(groupController.currentGroup.group_id)}">
                     <div>
                         <div style="float:left;">
-                                #{userController.getUserById(eachMember.user_id).first_name}&nbsp;#{userController.getUserById(eachMember.user_id).last_name}
+                            #{userController.getUserById(eachMember.user_id).first_name}&nbsp;#{userController.getUserById(eachMember.user_id).last_name}
                         </div>
                         <div style="float:left;">
-                                <h:commandLink value="Delete" action="#{groupMemberController.delete(eachMember)}"/> 
+                            <h:commandLink value="Delete" action="#{groupMemberController.delete(eachMember)}"/> 
                         </div>
                         <br/>
                     </div>
-                    <div style="float:left;">
-                        <h:form>    
-                            <h:inputText  
-                        </h:form>
-                    </div>
+                    
                 </c:forEach>
+                <div style="float:none;">
+                        <h:form>    
+                            <h:inputText value="#{groupMemberController.currentGroupMember.user_id}" id="userId"/>
+                            <h:button value="Add">
+                                <f:ajax execute="groupList" event="click"/>
+                            </h:button>
+                            <rich:autocomplete value="#{groupMemberController.currentGroupMember}"
+                                               autocompleteMethod="#{['a']}"/>
+                        </h:form>
+                </div>
             </h:form>
         </div>
     </h:body>
