@@ -24,14 +24,15 @@ import model.Group;
  */
 @Named
 @SessionScoped
-public class GroupController implements Serializable{
+public class GroupController implements Serializable {
+
     private List<Group> groupList;
     private Group currentGroup;
-            
+
     public GroupController() {
         currentGroup = new Group();
         refreshFromDB();
-        
+
     }
 
     public List<Group> getGroupList() {
@@ -49,24 +50,24 @@ public class GroupController implements Serializable{
     public void setCurrentGroup(Group currentGroup) {
         this.currentGroup = currentGroup;
     }
-    
-    public void addGroup(){
+
+    public void addGroup() {
         groupList.add(currentGroup);
-        currentGroup = new Group();        
+        currentGroup = new Group();
     }
-    
-    public Group getGroupById(int groupId){
-        for(Group group:groupList){
-            if(group.getGroup_id()== groupId){
+
+    public Group getGroupById(int groupId) {
+        for (Group group : groupList) {
+            if (group.getGroup_id() == groupId) {
                 return group;
             }
         }
         return null;
     }
-    
-    public boolean deleteGroup(){
-        for(Group group:groupList){
-            if(group.getGroup_id()==currentGroup.getGroup_id()){
+
+    public boolean deleteGroup() {
+        for (Group group : groupList) {
+            if (group.getGroup_id() == currentGroup.getGroup_id()) {
                 groupList.remove(group);
                 return true;
             }
@@ -74,10 +75,10 @@ public class GroupController implements Serializable{
         currentGroup = new Group();
         return false;
     }
-    
-    public Group editGroup(){
-        for(Group group:groupList){
-            if(group.getGroup_id() == currentGroup.getGroup_id()){
+
+    public Group editGroup() {
+        for (Group group : groupList) {
+            if (group.getGroup_id() == currentGroup.getGroup_id()) {
                 group.setGroup_name(currentGroup.getGroup_name());
                 return group;
             }
@@ -85,13 +86,12 @@ public class GroupController implements Serializable{
         currentGroup = new Group();
         return null;
     }
-    
-    public String getGroupHomePage(Group group)
-    {
+
+    public String getGroupHomePage(Group group) {
         currentGroup = group;
-        return "groupHome";
+        return "groupHome?faces-redirect=true";
     }
-    
+
     public void refreshFromDB() {
         groupList = new ArrayList<>();
         try {
@@ -99,11 +99,11 @@ public class GroupController implements Serializable{
             Connection con = DBUtils.getConnection();
             PreparedStatement pstm = con.prepareStatement("SELECT * FROM groups");
             ResultSet resultSet = pstm.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 group = new Group(
                         resultSet.getInt("group_id"),
                         resultSet.getString("group_name"));
-                        
+
                 groupList.add(group);
             }
         } catch (SQLException ex) {
@@ -111,5 +111,5 @@ public class GroupController implements Serializable{
         }
 
     }
-        
+
 }
