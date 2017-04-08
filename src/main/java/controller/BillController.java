@@ -60,26 +60,39 @@ public class BillController implements Serializable {
         addBill();
         return "groupHome?faces-redirect=true";
     }
-
-    public boolean deleteBillWithBillId(int billid) {
-        boolean deleted = false;
-        for (Bill b : billList) {
-            if (b.getBill_id() == billid) {
-                billList.remove(b);
-                deleted = true;
-            }
-        }
-        return deleted;
+    
+    public void delete(Bill bill){
+        this.currentBill = bill;
+        deleteCurrentBill();
+    }
+    
+    public String edit(Bill bill){
+        this.currentBill = bill;
+        return "editBill?faces-redirect=true";
     }
 
-    public boolean editBill() {
+    public boolean deleteCurrentBill() {
+        for (Bill b : billList) {
+            if (b.getBill_id() == this.currentBill.getBill_id()) {
+                billList.remove(this.currentBill);
+                this.currentBill = new Bill();
+                return true;
+            }
+        }
+        this.currentBill = new Bill();
+        return false;
+    }
+
+    public String editBill() {
         for (Bill b : billList) {
             if (b.getBill_id() == currentBill.getBill_id()) {
                 b.setBill_id(currentBill.getBill_id());
             }
-            return true;
+            this.currentBill = new Bill();
+            return "groupHome";
         }
-        return false;
+        this.currentBill = new Bill();
+        return "";
     }
     
     public double getTotalExpenseByGroupId(int groupId)
