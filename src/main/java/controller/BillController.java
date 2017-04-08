@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import model.Bill;
-import model.GroupMember;
 
 /**
  *
@@ -55,6 +54,11 @@ public class BillController implements Serializable {
     public void addBill() {
         billList.add(currentBill);
         currentBill = new Bill();
+    }
+    
+    public String submitNewBill(){
+        addBill();
+        return "groupHome?faces-redirect=true";
     }
 
     public boolean deleteBillWithBillId(int billid) {
