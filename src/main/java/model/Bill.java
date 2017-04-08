@@ -2,6 +2,12 @@ package model;
 
 
 import java.util.Date;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,9 +23,22 @@ public class Bill {
     private int bill_id;
     private int group_id;
     private int user_id;
+    
+    @NotNull
+    @Size(min=4, max=50)
     private String bill_description;
+    
+    @NotNull
+    @Digits(integer=6, fraction=2)
+    @DecimalMin("0.00")
     private double bill_amount;
+    
+    @NotNull
+    @Past
     private Date bill_date;
+    
+    @NotNull
+    @Size(min=4)
     private String bill_type;
 
     public Bill() {
