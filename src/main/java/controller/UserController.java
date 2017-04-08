@@ -102,10 +102,24 @@ public class UserController implements Serializable {
         for (User u : userList) {
             if (u.getEmail_id().equals(currentUser.getEmail_id()) && u.getPassword().equals(currentUser.getPassword())) {
                 IsLoggedIn = true;
+                currentUser = u;
                 return "home";
             }
         }
         return "login";
+    }
+    
+    public List<String> getSuggestion(String pattern) {
+        List<User> users = new ArrayList<>();
+        List<String> susers = new ArrayList<>();
+        pattern = "*"+pattern+"*";
+        for (User u : userList) {
+            if (u.getEmail_id().matches(pattern)) {
+                users.add(u);
+                susers.add(u.getEmail_id());
+            }
+        }
+        return susers;
     }
     
 
