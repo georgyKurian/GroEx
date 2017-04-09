@@ -57,6 +57,7 @@ public class BillController implements Serializable {
     }
     
     public String submitNewBill(){
+        this.currentBill = new Bill();
         addBill();
         return "groupHome?faces-redirect=true";
     }
