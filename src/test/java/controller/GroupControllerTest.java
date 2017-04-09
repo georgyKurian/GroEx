@@ -77,7 +77,7 @@ public class GroupControllerTest {
     public void testAddGroup() {
         System.out.println("addGroup");
         groupController.setCurrentGroup(newGroup);
-        groupController.addGroup();
+        groupController.addGroup(1);
         Group result = groupController.getGroupById(newGroup.getGroup_id());
         
         assertEquals(newGroup, result);
