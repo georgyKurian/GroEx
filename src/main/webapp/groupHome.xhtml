@@ -70,10 +70,10 @@
             <div>
                 <c:set var="totalExpense" value="#{billController.getTotalExpenseByGroupId(groupController.currentGroup.group_id)}"/>
                 <c:set var="noOfMembers" value="#{groupMemberController.getNumberOfMembersByGroupId(groupController.currentGroup.group_id)}"/>
-                <c:set var="individualExpense" value="#{totalExpense/noOfMembers}"/>
+                <c:set var="individualExpense" value="#{noOfMembers==0?0:totalExpense/noOfMembers}"/>
                 <c:set var="contribution" value="#{billController.getTotalExpenseByGroupIdAndUserId(groupController.currentGroup.group_id, userController.currentUser.user_id)}"/>
                 <c:set var="balance" value="#{individualExpense-contribution}"/>
-
+               
                 <c:if test="#{balance lt 0}">
                     <label>You are Owed : </label>
                     <h:outputText value="#{balance*-1}">
@@ -100,7 +100,7 @@
 
                             <div>
                                 <div style="float:left;">
-
+                                    
                                 </div>
                                 <div>
                                     <c:set var="balance" value="#{individualExpense-billController.getTotalExpenseByGroupIdAndUserId(groupController.currentGroup.group_id, eachMember.user_id)}"/>
