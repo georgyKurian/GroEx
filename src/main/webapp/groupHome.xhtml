@@ -22,12 +22,10 @@
             <div style="float:left;">
                 <h:button value="Add Bill" outcome="addBill"/>
             </div>
-
-
         </div>
         <!-- Group name block end here -->
         <div style="">
-            <h:dataTable value="#{billController.billList}" var="bill" >
+            <h:dataTable value="#{billController.getBillListByGroupId(groupController.currentGroup.group_id)}" var="bill" >
                 <h:column>
                     <f:facet name="header">Date</f:facet>
                     <h:outputText value="#{bill.bill_date}" >
@@ -63,6 +61,7 @@
                         <h:commandLink value="Delete" action="#{billController.delete(bill)}"/> 
                     </h:form>
                 </h:column>
+
             </h:dataTable>
         </div>
         <div style="float:right;width:50%;">
@@ -73,7 +72,7 @@
                 <c:set var="individualExpense" value="#{noOfMembers==0?0:totalExpense/noOfMembers}"/>
                 <c:set var="contribution" value="#{billController.getTotalExpenseByGroupIdAndUserId(groupController.currentGroup.group_id, userController.currentUser.user_id)}"/>
                 <c:set var="balance" value="#{individualExpense-contribution}"/>
-               
+
                 <c:if test="#{balance lt 0}">
                     <label>You are Owed : </label>
                     <h:outputText value="#{balance*-1}">
@@ -100,7 +99,7 @@
 
                             <div>
                                 <div style="float:left;">
-                                    
+
                                 </div>
                                 <div>
                                     <c:set var="balance" value="#{individualExpense-billController.getTotalExpenseByGroupIdAndUserId(groupController.currentGroup.group_id, eachMember.user_id)}"/>
