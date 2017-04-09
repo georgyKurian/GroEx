@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -109,10 +111,12 @@ public class UserController implements Serializable {
         return "login";
     }
     
-    public List<String> getSuggestion(String pattern) {
+    public List<String> getSuggestion(String str) {
         List<User> users = new ArrayList<>();
         List<String> susers = new ArrayList<>();
-        pattern = "*"+pattern+"*";
+        String pattern;
+        pattern = "(.*)"+str+"(.*)";
+        
         for (User u : userList) {
             if (u.getEmail_id().matches(pattern)) {
                 users.add(u);
@@ -120,6 +124,12 @@ public class UserController implements Serializable {
             }
         }
         return susers;
+    }
+    
+    public String logout(){
+        this.IsLoggedIn = false;
+        this.currentUser = new User();
+        return "index";
     }
     
 
