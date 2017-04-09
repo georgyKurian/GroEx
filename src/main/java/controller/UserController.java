@@ -132,6 +132,10 @@ public class UserController implements Serializable {
         return "index?faces-redirect=true";
     }
     
+    public String signup(){
+        this.currentUser = new User();
+        return "signup?faces-redirect=true";
+    }    
 
     public void refreshFromDB() {
         userList = new ArrayList<>();
