@@ -7,27 +7,13 @@
     </h:head>
     <h:body>
         <h:form>
-            First Name<h:inputText value="#{userController.currentUser.first_name}"/>
-            Last Name<h:inputText value="#{userController.currentUser.last_name}"/>
-            Email Id<h:inputText value="#{userController.currentUser.email_id}"/>
-            Password <h:inputText value="#{userController.currentUser.password}"/>
-
-            <h:commandButton value="Submit" action="#{userController.addUser()}"/>
+            First Name<h:inputText value="#{userController.currentUser.first_name}" id="firstName"/>
+            Last Name<h:inputText value="#{userController.currentUser.last_name}" id="lastName"/>
+            Email Id<h:inputText value="#{userController.currentUser.email_id}" id="emailId"/>
+            Password <h:inputText value="#{userController.currentUser.password}" id="password"/>
+            Confirm Password <h:inputText value="" id="confirmPassword"/>
+            <h:commandButton value="Submit" action="#{userController.addUser()}" />
         </h:form>
-        <h:dataTable value="#{userController.userList}" var="user">
-            <h:column>
-                #{user.first_name}
-            </h:column>
-            <h:column>
-                #{user.last_name}
-            </h:column>
-            <h:column>
-                #{user.email_id}
-            </h:column>
-            <h:column>
-                #{user.password}
-            </h:column>
-        </h:dataTable>
     </h:body>
 </html>
 
