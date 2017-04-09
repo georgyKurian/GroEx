@@ -105,10 +105,10 @@ public class UserController implements Serializable {
             if (u.getEmail_id().equals(currentUser.getEmail_id()) && u.getPassword().equals(currentUser.getPassword())) {
                 IsLoggedIn = true;
                 currentUser = u;
-                return "home";
+                return "home?faces-redirect=true";
             }
         }
-        return "login";
+        return "index?faces-redirect=true";
     }
     
     public List<String> getSuggestion(String str) {
@@ -129,7 +129,7 @@ public class UserController implements Serializable {
     public String logout(){
         this.IsLoggedIn = false;
         this.currentUser = new User();
-        return "index";
+        return "index?faces-redirect=true";
     }
     
 
