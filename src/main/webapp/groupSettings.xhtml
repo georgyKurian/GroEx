@@ -3,11 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:rich="http://richfaces.org/rich"
-      xmlns:a4j="http://richfaces.org/a4j">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        
     </h:head>
     <h:body>
         <div>
@@ -32,17 +32,16 @@
                         </div>
                         <br/>
                     </div>
-                    
+
                 </c:forEach>
                 <div style="float:none;">
-                        <h:form>    
-                            <h:inputText value="#{groupMemberController.currentGroupMember.user_id}" id="userId"/>
-                            <h:button value="Add">
-                                <f:ajax execute="groupList" event="click"/>
-                            </h:button>
-                            <rich:autocomplete value="#{groupMemberController.currentGroupMember}"
-                                               autocompleteMethod="#{['a']}"/>
-                        </h:form>
+                    <h:form>    
+                        <h:inputText value="#{groupMemberController.currentGroupMember.user_id}" id="autocomplete"/>
+                        <h:button value="Add">
+                            <f:ajax execute="groupList" event="click"/>
+                        </h:button>
+
+                    </h:form>
                 </div>
             </h:form>
         </div>
