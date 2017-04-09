@@ -71,6 +71,16 @@ public class BillController implements Serializable {
         this.currentBill = bill;
         return "editBill?faces-redirect=true";
     }
+    
+    public List<Bill> getBillListByGroupId(int groupId) {
+        List<Bill> refinedBillList = new ArrayList<>();
+        for (Bill b : billList) {
+            if (b.getGroup_id() == groupId) {
+                refinedBillList.add(b);
+            }
+        }
+        return refinedBillList;
+    }
 
     public boolean deleteCurrentBill() {
         for (Bill b : billList) {
