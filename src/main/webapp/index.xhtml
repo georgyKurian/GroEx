@@ -32,6 +32,8 @@
                         <label style="margin:5px;"></label>
                         Password <h:inputSecret  id="password" value="#{userController.currentUser.password}"/>&nbsp;<span id="spann1" style="color:red">*</span> <br></br> <br></br>
                         <h:commandButton id="submit" style="height: 45px;width: 23%;background-color: #FF5733;color: white;font-weight:bold;" value="Submit" action="#{userController.doLogIn()}"/>  
+                        <br/>
+                        <h:commandLink action="#{userController.signup()}" value="Signup"/>
                     </h:form>
                 </div>
             </div>
