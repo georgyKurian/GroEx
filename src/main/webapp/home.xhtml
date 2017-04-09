@@ -35,27 +35,31 @@
                 </ui:insert>
             </div>
             <div class="text-center" style="font-size:1.2em;">
-            <div class="row">
-                <div class="col-sm-48" style="border: 1px solid black; margin-left: 45%; margin-right: 45%; height: 50%; width:12% ;text-align: center; margin-top: 8%;">
-                    <p>  <span class="glyphicon glyphicon-plus-sign" style="font-size: 1.2em"></span>    
+                <div class="row">
+                    <div class="col-sm-48" style="border: 1px solid black; margin-left: 45%; margin-right: 45%; height: 50%; width:12% ;text-align: center; margin-top: 8%;">
+                        <p>  
+                            <h:form>
+                                <span class="glyphicon glyphicon-plus-sign" style="font-size: 1.2em"></span>    
 
-                        <h:link style="font-weight: bold;" value="New group" outcome="createGroup" /> </p>
+                                <h:commandLink style="font-weight: bold;" value="New group" action="#{groupController.addGroupPage()}" /> 
+                            </h:form>
+                        </p>
 
-                </div>
-                <br></br> <br></br>
+                    </div>
+                    <br></br> <br></br>
 
-                <h2 style="font-weight: bold; text-align: center">Groups</h2><br></br>
+                    <h2 style="font-weight: bold; text-align: center">Groups</h2><br></br>
 
-                <div class="col-sm-48" style="font-size:1.0em;border: 1px solid black; margin-left: 45%; margin-right: 45%; height: 50%; width:12% ;text-align: center;">
-                    <h:form>
+                    <div class="col-sm-48" style="font-size:1.0em;border: 1px solid black; margin-left: 45%; margin-right: 45%; height: 50%; width:12% ;text-align: center;">
+                        <h:form>
 
-                        <c:forEach var="group" items="#{groupController.groupList}"><br></br>
-                            <span class="glyphicon glyphicon-user" style="font-size: 1.5em"></span>
-                            <h:commandLink style="font-weight: bold;" value="#{group.group_name}" action="#{groupController.getGroupHomePage(group)}"/><br/>
-                        </c:forEach>
+                            <c:forEach var="group" items="#{groupController.groupList}"><br></br>
+                                <span class="glyphicon glyphicon-user" style="font-size: 1.5em"></span>
+                                <h:commandLink style="font-weight: bold;" value="#{group.group_name}" action="#{groupController.getGroupHomePage(group)}"/><br/>
+                            </c:forEach>
 
-                    </h:form>
-                </div>
+                        </h:form>
+                    </div>
                 </div>
             </div>
             <div id="footer">
