@@ -51,9 +51,14 @@ public class GroupController implements Serializable {
         this.currentGroup = currentGroup;
     }
 
-    public void addGroup() {
+    public String addGroup(int userId) {
+        GroupMemberController gmController = new GroupMemberController();
+        // Add code for setting group id
+        gmController.currentGroupMember.setUser_id(userId);
+        gmController.addGroupmember();
         groupList.add(currentGroup);
-        currentGroup = new Group();
+       
+        return "groupSettings?faces-redirect=true";
     }
 
     public Group getGroupById(int groupId) {
@@ -64,7 +69,11 @@ public class GroupController implements Serializable {
         }
         return null;
     }
-
+    
+    public String addGroupPage(){
+        this.currentGroup = new Group();
+        return "createGroup?faces-redirect=true";
+    }
     public boolean deleteGroup() {
         for (Group group : groupList) {
             if (group.getGroup_id() == currentGroup.getGroup_id()) {
