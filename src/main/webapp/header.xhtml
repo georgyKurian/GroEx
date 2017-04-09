@@ -26,29 +26,32 @@
                         <li><a href="#"><strong>ABOUT US</strong></a></li>
                         <li><a href="#"><strong>PRODUCT LIST</strong></a></li>
                     </ul>
+                    <h:form>
+                        <div class="collapse navbar-collapse" id="myNavbar">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span>User <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
 
-                    <div class="collapse navbar-collapse" id="myNavbar">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span>User <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
+                                        <li>
+                                            <h:link outcome="userSettings" value="Settings"/>
+                                        </li>
+                                        <li>
+                                            <a href="#">Help</a>
+                                        </li>
+                                        <li>
 
-                                    <li>
-                                        <a href="#">Settings</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Help</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Logout<span class="glyphicon glyphicon-log-in"></span></a>
-                                    </li>
+                                            <h:commandLink action="#{userController.logout()}">
+                                                Logout<span class="glyphicon glyphicon-log-in"></span>
+                                            </h:commandLink>
 
 
-
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </h:form>
                 </div>
             </nav>
 
