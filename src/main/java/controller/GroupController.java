@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import model.Bill;
 import model.Group;
 
 /**
@@ -57,7 +58,7 @@ public class GroupController implements Serializable {
         gmController.currentGroupMember.setUser_id(userId);
         gmController.addGroupmember();
         groupList.add(currentGroup);
-       
+
         return "groupSettings?faces-redirect=true";
     }
 
@@ -69,11 +70,12 @@ public class GroupController implements Serializable {
         }
         return null;
     }
-    
-    public String addGroupPage(){
+
+    public String addGroupPage() {
         this.currentGroup = new Group();
         return "createGroup?faces-redirect=true";
     }
+
     public boolean deleteGroup() {
         for (Group group : groupList) {
             if (group.getGroup_id() == currentGroup.getGroup_id()) {
@@ -85,15 +87,28 @@ public class GroupController implements Serializable {
         return false;
     }
 
-    public Group editGroup() {
-        for (Group group : groupList) {
-            if (group.getGroup_id() == currentGroup.getGroup_id()) {
-                group.setGroup_name(currentGroup.getGroup_name());
-                return group;
+    public void editGroup() {
+        try {
+
+            String sql = "UPDATE `groups` SET `group_name` = ? WHERE `groups`.`group_id` = ? ";
+            Connection conn = DBUtils.getConnection();
+
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, currentGroup.getGroup_name());
+            pst.setInt(2, currentGroup.getGroup_id());
+            pst.executeUpdate();
+
+            for (Group group : groupList) {
+                if (group.getGroup_id() == currentGroup.getGroup_id()) {
+                    group.setGroup_name(currentGroup.getGroup_name());
+
+                }
             }
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        currentGroup = new Group();
-        return null;
+
     }
 
     public String getGroupHomePage(Group group) {
