@@ -10,12 +10,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import model.Bill;
 import model.Group;
 import model.GroupMember;
 
@@ -52,27 +54,57 @@ public class GroupMemberController implements Serializable {
     }
 
     public void addGroupmember() {
-        groupMemberList.add(currentGroupMember);
-        currentGroupMember = new GroupMember();
+        try {
+
+            String sql = "INSERT INTO `group_members` (`group_id`, `user_id`) VALUES ('?', '?');";
+            Connection conn = DBUtils.getConnection();
+
+            PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pst.setInt(1, currentGroupMember.getGroup_id());
+            pst.setInt(2, currentGroupMember.getUser_id());
+
+            pst.executeUpdate();
+
+            groupMemberList.add(currentGroupMember);
+            currentGroupMember = new GroupMember();
+        } catch (SQLException ex) {
+            Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
+
     public List<GroupMember> getgroupMembersByGroupId(int groupId) {
         List<GroupMember> refinedGroupMembers = new ArrayList<>();
         for (GroupMember gMember : groupMemberList) {
             if (gMember.getGroup_id() == groupId) {
-                refinedGroupMembers.add(gMember);                
+                refinedGroupMembers.add(gMember);
             }
         }
         return refinedGroupMembers;
     }
-    
+
     public boolean deleteCurrentGroupmember() {
-        for (GroupMember gMember : groupMemberList) {
-            if (gMember.getGroup_id() == currentGroupMember.getGroup_id() & gMember.getUser_id() == currentGroupMember.getUser_id()) {
-                groupMemberList.remove(gMember);
-                return true;
+        try {
+
+            String sql = "DELETE FROM `group_members` WHERE `group_members`.`group_id` = ? AND `group_members`.`user_id` = ?";
+            Connection conn = DBUtils.getConnection();
+
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setInt(1, currentGroupMember.getGroup_id());
+            pst.setInt(2, currentGroupMember.getUser_id());
+            pst.executeUpdate();
+
+            for (GroupMember gMember : groupMemberList) {
+                if (gMember.getGroup_id() == currentGroupMember.getGroup_id() & gMember.getUser_id() == currentGroupMember.getUser_id()) {
+                    groupMemberList.remove(gMember);
+                    return true;
+                }
             }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return false;
     }
 
@@ -108,14 +140,14 @@ public class GroupMemberController implements Serializable {
         }
         return deleted;
     }
-    
-    public String delete(GroupMember groupmember){
+
+    public String delete(GroupMember groupmember) {
         currentGroupMember = groupmember;
         deleteCurrentGroupmember();
         return "groupHome?faces-redirect=true";
     }
-    
-    public int getNumberOfMembersByGroupId(int groupId){
+
+    public int getNumberOfMembersByGroupId(int groupId) {
         int count = 0;
         for (GroupMember gMember : groupMemberList) {
             if (gMember.getGroup_id() == groupId) {
@@ -124,7 +156,7 @@ public class GroupMemberController implements Serializable {
         }
         return count;
     }
-    
+
     public void refreshFromDB() {
         groupMemberList = new ArrayList<>();
         try {
@@ -132,7 +164,7 @@ public class GroupMemberController implements Serializable {
             Connection con = DBUtils.getConnection();
             PreparedStatement pstm = con.prepareStatement("SELECT * FROM group_members");
             ResultSet resultSet = pstm.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 groupMember = new GroupMember(
                         resultSet.getInt("group_id"),
                         resultSet.getInt("user_id"));
