@@ -17,16 +17,15 @@
 
             <label for="bill_date">Bill Date</label>
             <h:inputText value="#{billController.currentBill.bill_date}" converterMessage="dd/MM/yyyy">
-               <f:convertDateTime pattern="dd/MM/yyyy"/>;
+                <f:convertDateTime pattern="dd/MM/yyyy"/>;
             </h:inputText>
 
             <label for="bill_date">Type</label>            
             <h:inputText value="#{billController.currentBill.bill_type}"/>
-            #{userController.currentUser.user_id}
-            <h:commandButton value="Submit" action="#{billController.submitNewBill()}">
-                <f:setPropertyActionListener target="#{billController.currentBill.group_id}" value="#{groupController.currentGroup.group_id}" />
-                <f:setPropertyActionListener target="#{billController.currentBill.user_id}" value="#{userController.currentUser.user_id}" />
-            </h:commandButton>
+            #{billController.currentBill.setGroup_id(groupController.currentGroup.group_id)}"
+            #{billController.currentBill.setUser_id(userController.currentUser.user_id) }"
+
+            <h:commandButton value="Submit" action="#{billController.submitNewBill()}"/>
         </h:form>
     </h:body>
 </html>
