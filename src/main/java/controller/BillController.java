@@ -7,15 +7,17 @@ package controller;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import model.Bill;
 
@@ -24,7 +26,7 @@ import model.Bill;
  * @author c0687174
  */
 @Named
-@ApplicationScoped
+@SessionScoped
 public class BillController implements Serializable {
 
     private List<Bill> billList;
@@ -51,27 +53,47 @@ public class BillController implements Serializable {
         this.currentBill = currentBill;
     }
 
-    public void addBill() {
-        billList.add(currentBill);
-        currentBill = new Bill();
+    public void addNewBill() {
+        try {
+
+            String sql = "INSERT INTO bill (bill_id, group_id, user_id, description, amount, date, type) VALUES (NULL, ?, ?, ?, ?, ?, ?);";
+            Connection conn = DBUtils.getConnection();
+
+            PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pst.setInt(1, currentBill.getGroup_id());
+            pst.setInt(2, currentBill.getUser_id());
+            pst.setString(3, currentBill.getBill_description());
+            pst.setDouble(4, currentBill.getBill_amount());
+            pst.setDate(5, new java.sql.Date(currentBill.getBill_date().getTime()));
+            pst.setString(6, currentBill.getBill_type());
+            pst.executeUpdate();
+
+            ResultSet rs = pst.getGeneratedKeys();
+            if (rs.next()) {
+                this.currentBill.setBill_id(rs.getInt(1));
+                billList.add(currentBill);
+                this.currentBill = new Bill();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    public String submitNewBill(){
-        this.currentBill = new Bill();
-        addBill();
+
+    public String submitNewBill() {
+        addNewBill();
         return "groupHome?faces-redirect=true";
     }
-    
-    public void delete(Bill bill){
+
+    public void delete(Bill bill) {
         this.currentBill = bill;
         deleteCurrentBill();
     }
-    
-    public String edit(Bill bill){
+
+    public String edit(Bill bill) {
         this.currentBill = bill;
         return "editBill?faces-redirect=true";
     }
-    
+
     public List<Bill> getBillListByGroupId(int groupId) {
         List<Bill> refinedBillList = new ArrayList<>();
         for (Bill b : billList) {
@@ -83,45 +105,82 @@ public class BillController implements Serializable {
     }
 
     public boolean deleteCurrentBill() {
-        for (Bill b : billList) {
-            if (b.getBill_id() == this.currentBill.getBill_id()) {
-                billList.remove(this.currentBill);
-                this.currentBill = new Bill();
-                return true;
+        try {
+
+            String sql = "DELETE FROM `bill` WHERE `bill`.`bill_id` = ?;";
+            Connection conn = DBUtils.getConnection();
+
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setInt(1, currentBill.getBill_id());
+            pst.executeUpdate();
+
+            for (Bill b : billList) {
+                if (b.getBill_id() == this.currentBill.getBill_id()) {
+                    billList.remove(this.currentBill);
+                    this.currentBill = new Bill();
+                    return true;
+                }
             }
+            this.currentBill = new Bill();
+            
+
+        } catch (SQLException ex) {
+            Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.currentBill = new Bill();
         return false;
+
     }
 
     public String editBill() {
-        for (Bill b : billList) {
-            if (b.getBill_id() == currentBill.getBill_id()) {
-                b.setBill_id(currentBill.getBill_id());
+        try {
+
+            String sql = "UPDATE `bill` SET "
+                    + "`description` = ?, "
+                    + "`amount` = ?, `date` = ?, "
+                    + "`type` = ? "
+                    + "WHERE `bill`.`bill_id` = ?;";
+            Connection conn = DBUtils.getConnection();
+
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, currentBill.getBill_description());
+            pst.setDouble(2, currentBill.getBill_amount());
+            pst.setDate(3, new java.sql.Date(currentBill.getBill_date().getTime()));
+            pst.setString(4, currentBill.getBill_type());
+            pst.setInt(5, currentBill.getBill_id());
+            pst.executeUpdate();
+
+            for (Bill b : billList) {
+                if (b.getBill_id() == currentBill.getBill_id()) {
+                    b.setBill_description(this.currentBill.getBill_description());
+                    b.setBill_amount(this.currentBill.getBill_amount());
+                    b.setBill_type(this.currentBill.getBill_type());
+                    b.setBill_date(this.currentBill.getBill_date());
+                }
+                this.currentBill = new Bill();
+                return "groupHome";
             }
-            this.currentBill = new Bill();
-            return "groupHome";
+
+        } catch (SQLException ex) {
+            Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.currentBill = new Bill();
+
         return "";
     }
-    
-    public double getTotalExpenseByGroupId(int groupId)
-    {
+
+    public double getTotalExpenseByGroupId(int groupId) {
         double total = 0.0;
-         for (Bill b : billList) {
-            if (b.getGroup_id()== groupId) {
+        for (Bill b : billList) {
+            if (b.getGroup_id() == groupId) {
                 total += b.getBill_amount();
             }
         }
         return total;
     }
-    
-    public double getTotalExpenseByGroupIdAndUserId(int groupId,int userId)
-    {
+
+    public double getTotalExpenseByGroupIdAndUserId(int groupId, int userId) {
         double total = 0.0;
-         for (Bill b : billList) {
-            if (b.getGroup_id()== groupId & b.getUser_id() == userId) {
+        for (Bill b : billList) {
+            if (b.getGroup_id() == groupId & b.getUser_id() == userId) {
                 total += b.getBill_amount();
             }
         }
@@ -138,17 +197,19 @@ public class BillController implements Serializable {
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
                 bill = new Bill(
-                        resultSet.getInt("bill_id"), 
-                        resultSet.getInt("group_id"), 
+                        resultSet.getInt("bill_id"),
+                        resultSet.getInt("group_id"),
                         resultSet.getInt("user_id"),
-                        resultSet.getString("description"), 
+                        resultSet.getString("description"),
                         resultSet.getDouble("amount"),
                         resultSet.getDate("date"),
                         resultSet.getString("type"));
                 billList.add(bill);
+
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }
