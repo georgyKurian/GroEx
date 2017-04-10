@@ -7,15 +7,20 @@
     <h:head>
         <title>Facelet Title</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        
     </h:head>
     <h:body>
         <div>
             <h2>
                 <h:form>
-                    <h:inputText value="#{groupController.currentGroup.group_name}" id="groupName">
-                        <f:ajax execute="groupName" event="change"/>
+
+                    <h:inputText value="#{groupController.currentGroup.group_name}" id="groupName" >
+
                     </h:inputText>
+                    
+                    <h:commandButton action="#{groupController.editGroup()}" id="hiddenSubmit" value="Change">
+                        <f:ajax execute="groupName hiddenSubmit" event="change"/>
+                    </h:commandButton>
+
                 </h:form>
             </h2>
         </div>
