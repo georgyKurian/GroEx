@@ -8,29 +8,33 @@
     </h:head>
     <h:body>
         <div id="myDiv" style=""></div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script type="text/javascript">
-            var data = #{billController.getMonthlyExpense(groupController.currentGroup.group_id)};
-            var layout = {
-                title: 'Expense of last 5 Months',
-                xaxis: {
-                    title: 'Months',
-                    titlefont: {
-                        family: 'Arial',
-                        size: 18,
-                        color: '#1a000d'
+            var data;
+            $.getJSON("gdata/v2/#{groupController.currentGroup.group_id}", function (sdata) {
+                data = sdata;
+                var layout = {
+                    title: 'Expense of last 5 Months',
+                    xaxis: {
+                        title: 'Months',
+                        titlefont: {
+                            family: 'Arial',
+                            size: 18,
+                            color: '#1a000d'
+                        }
+                    },
+                    yaxis: {
+                        title: 'Expense',
+                        titlefont: {
+                            family: 'Arial',
+                            size: 18,
+                            color: '#1a000d'
+                        }
                     }
-                },
-                yaxis: {
-                    title: 'Expense',
-                    titlefont: {
-                        family: 'Arial',
-                        
-                        size: 18,
-                        color: '#1a000d'
-                    }
-                }
-            };
-            Plotly.newPlot('myDiv', data, layout);
+                };
+                Plotly.newPlot('myDiv', data, layout);
+            });
+
         </script>
 
     </h:body>
