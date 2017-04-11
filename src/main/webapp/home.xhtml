@@ -36,29 +36,49 @@
             </div>
             <div class="text-center" style="font-size:1.2em;">
                 <div class="row">
-                    <div class="col-sm-48" style="border: 1px solid black; margin-left: 45%; margin-right: 45%; height: 50%; width:12% ;text-align: center; margin-top: 8%;">
+                    <div class="col-sm-1000000" style="border: 1px solid black;  margin-left: 34%; margin-right: 25%; height: 50%; width:30% ;text-align: center; margin-top: 5%;">
                         <p>  
-                            <h:form>
-                                <span class="glyphicon glyphicon-plus-sign" style="font-size: 1.2em"></span>    
+                            <div class="col-sm-58"> 
+                                <h:form>
+                                    <span class="glyphicon glyphicon-plus-sign" style="font-size: 1.2em ; margin-right:1%;" ></span> 
 
-                                <h:commandLink style="font-weight: bold;" value="New group" action="#{groupController.addGroupPage()}" /> 
-                            </h:form>
+                                    <h:commandLink style="font-weight: bold; margin-left:2%;" value="New group" action="#{groupController.addGroupPage()}" /> 
+                                </h:form>
+                            </div> 
                         </p>
 
                     </div>
                     <br></br> <br></br>
 
                     <h2 style="font-weight: bold; text-align: center">Groups</h2><br></br>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <br/>
+                        </div>
+                        <div class="col-sm-4" style="font-size:1.0em; text-align: center;">
+                            <h:form>
+                                <div style="display: inline;">
+                                    <c:forEach var="group" items="#{groupController.groupList}">
+                                        <div style="text-align: left;background-color: #cdd2d8;boredr: 1px solid #afb2b5; padding: 20px 10px 20px 10px;overflow: hidden;margin-bottom: 5px;">
+                                            <div class="row" style="margin:auto;">
+                                                <div style="float:left;">
+                                                    <span class="glyphicon glyphicon-user" style="font-size: 1.5em;margin-left: 10px; margin-right: 15px;"></span>
+                                                </div>
+                                                <div style="float:left;">
+                                                    <h:commandLink style="font-weight: bold;" value=" #{group.group_name}" action="#{groupController.getGroupHomePage(group)}"/>
+                                                </div>
+                                            </div>
 
-                    <div class="col-sm-48" style="font-size:1.0em;border: 1px solid black; margin-left: 45%; margin-right: 45%; height: 50%; width:12% ;text-align: center;">
-                        <h:form>
+                                        </div >
 
-                            <c:forEach var="group" items="#{groupController.groupList}"><br></br>
-                                <span class="glyphicon glyphicon-user" style="font-size: 1.5em"></span>
-                                <h:commandLink style="font-weight: bold;" value="#{group.group_name}" action="#{groupController.getGroupHomePage(group)}"/><br/>
-                            </c:forEach>
+                                    </c:forEach>
+                                </div>
+                            </h:form>
 
-                        </h:form>
+                        </div>
+                        <div class="col-sm-4">
+                            <br/>
+                        </div>
                     </div>
                 </div>
             </div>
