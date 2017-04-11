@@ -7,18 +7,21 @@ package controller;
 
 import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 import model.Bill;
 
 /**
@@ -122,7 +125,6 @@ public class BillController implements Serializable {
                 }
             }
             this.currentBill = new Bill();
-            
 
         } catch (SQLException ex) {
             Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
@@ -185,6 +187,40 @@ public class BillController implements Serializable {
             }
         }
         return total;
+    }
+
+    public String getMonthlyExpense(int groupId) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -4);
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM-yyyy");
+        //format it to MMM-yyyy // January-2012
+        String previousMonthYear;
+
+        JsonArrayBuilder monthName = Json.createArrayBuilder();
+        JsonArrayBuilder expense = Json.createArrayBuilder();
+        
+        double total;
+        for (int i = 0; i < 5; i++) {
+            previousMonthYear = sdf.format(cal.getTime());
+            total = 0.0;
+            for (Bill b : billList) {
+                if (b.getGroup_id() == groupId & sdf.format(b.getBill_date()).equals(previousMonthYear)) {
+                    total += b.getBill_amount();
+                }
+            }
+            monthName.add(previousMonthYear);
+            expense.add(total);
+            cal.add(Calendar.MONTH, 1);
+        }
+        
+        
+        JsonObjectBuilder json = Json.createObjectBuilder();
+        json.add("x", monthName.build());
+        json.add("y", expense.build());
+        json.add("type", "bar");
+
+        return ("[" + json.build() + "]");
     }
 
     public void refreshFromDB() {
