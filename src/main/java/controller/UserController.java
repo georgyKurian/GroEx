@@ -28,7 +28,7 @@ import model.User;
 @Named
 @SessionScoped
 public class UserController implements Serializable {
-    
+
     private boolean IsLoggedIn;
 
     private List<User> userList;
@@ -110,32 +110,26 @@ public class UserController implements Serializable {
         }
         return "index?faces-redirect=true";
     }
-    
-    public List<String> getSuggestion(String str) {
-        List<User> users = new ArrayList<>();
-        List<String> susers = new ArrayList<>();
-        String pattern;
-        pattern = "(.*)"+str+"(.*)";
-        
+
+    public List<String> getSuggestion() {
+        List<String> email = new ArrayList<>();
+
         for (User u : userList) {
-            if (u.getEmail_id().matches(pattern)) {
-                users.add(u);
-                susers.add(u.getEmail_id());
-            }
+            email.add(u.getEmail_id());
         }
-        return susers;
+        return email;
     }
-    
-    public String logout(){
+
+    public String logout() {
         this.IsLoggedIn = false;
         this.currentUser = new User();
         return "index?faces-redirect=true";
     }
-    
-    public String signup(){
+
+    public String signup() {
         this.currentUser = new User();
         return "signup?faces-redirect=true";
-    }    
+    }
 
     public void refreshFromDB() {
         userList = new ArrayList<>();
@@ -144,10 +138,10 @@ public class UserController implements Serializable {
             Connection con = DBUtils.getConnection();
             PreparedStatement pstm = con.prepareStatement("SELECT * FROM user");
             ResultSet resultSet = pstm.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 user = new User(
-                        resultSet.getInt("user_id"), 
-                        resultSet.getString("email_id"), 
+                        resultSet.getInt("user_id"),
+                        resultSet.getString("email_id"),
                         resultSet.getString("password"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"));

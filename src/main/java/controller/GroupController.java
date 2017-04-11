@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -53,11 +54,32 @@ public class GroupController implements Serializable {
     }
 
     public String addGroup(int userId) {
-        GroupMemberController gmController = new GroupMemberController();
-        // Add code for setting group id
-        gmController.currentGroupMember.setUser_id(userId);
-        gmController.addGroupmember();
-        groupList.add(currentGroup);
+        try {
+
+            String sql = "INSERT INTO `groups` (`group_id`, `group_name`) VALUES (NULL, ?)";
+            Connection conn = DBUtils.getConnection();
+
+            PreparedStatement pst = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            pst.setString(1, currentGroup.getGroup_name());
+            
+            pst.executeUpdate();
+            
+            ResultSet rs = pst.getGeneratedKeys();
+            if(rs.next()){
+                currentGroup.setGroup_id(rs.getInt(1));
+            }
+
+            GroupMemberController gmController = new GroupMemberController();
+
+            // Add code for setting group id
+            gmController.currentGroupMember.setGroup_id(currentGroup.getGroup_id());
+            gmController.currentGroupMember.setUser_id(userId);
+            gmController.addGroupmember();
+            groupList.add(currentGroup);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         return "groupSettings?faces-redirect=true";
     }
@@ -77,11 +99,26 @@ public class GroupController implements Serializable {
     }
 
     public boolean deleteGroup() {
-        for (Group group : groupList) {
-            if (group.getGroup_id() == currentGroup.getGroup_id()) {
-                groupList.remove(group);
-                return true;
+
+        try {
+
+            String sql = "UPDATE `groups` SET `group_name` = ? WHERE `groups`.`group_id` = ? ";
+            Connection conn = DBUtils.getConnection();
+
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, currentGroup.getGroup_name());
+            pst.setInt(2, currentGroup.getGroup_id());
+            pst.executeUpdate();
+
+            for (Group group : groupList) {
+                if (group.getGroup_id() == currentGroup.getGroup_id()) {
+                    groupList.remove(group);
+                    return true;
+                }
             }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
         }
         currentGroup = new Group();
         return false;
@@ -104,7 +141,7 @@ public class GroupController implements Serializable {
 
                 }
             }
-           
+
         } catch (SQLException ex) {
             Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
         }

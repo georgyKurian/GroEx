@@ -38,6 +38,7 @@ public class GroupMemberController implements Serializable {
     }
 
     public List<GroupMember> getGroupMemberList() {
+        refreshFromDB();
         return groupMemberList;
     }
 
@@ -56,7 +57,7 @@ public class GroupMemberController implements Serializable {
     public void addGroupmember() {
         try {
 
-            String sql = "INSERT INTO `group_members` (`group_id`, `user_id`) VALUES ('?', '?');";
+            String sql = "INSERT INTO `group_members` (`group_id`, `user_id`) VALUES (?, ?);";
             Connection conn = DBUtils.getConnection();
 
             PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
