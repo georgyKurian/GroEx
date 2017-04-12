@@ -74,6 +74,16 @@ public class GroupMemberController implements Serializable {
 
     }
 
+    public boolean hasGroupMemberInGroup(int groupId, int userId) {
+        List<GroupMember> refinedGroupMembers = new ArrayList<>();
+        for (GroupMember gMember : groupMemberList) {
+            if (gMember.getGroup_id() == groupId && gMember.getUser_id() == userId){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public List<GroupMember> getgroupMembersByGroupId(int groupId) {
         List<GroupMember> refinedGroupMembers = new ArrayList<>();
         for (GroupMember gMember : groupMemberList) {
