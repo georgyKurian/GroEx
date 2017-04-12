@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,6 +20,7 @@ import java.util.regex.Pattern;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import model.Bill;
 import model.User;
 
 /**
@@ -66,9 +68,36 @@ public class UserController implements Serializable {
         this.currentUser = currentUser;
     }
 
-    public void addUser() {
-        userList.add(currentUser);
-        currentUser = new User();
+    public String addUser() {
+        currentUser.setPassword(DBUtils.hash(currentUser.getPassword()));
+                try {
+            
+            String sql = "INSERT INTO `user` (`user_id`, `email_id`, `password`, `first_name`, `last_name`) VALUES (NULL, ?, ?, ?, ?);";
+            Connection conn = DBUtils.getConnection();
+            currentUser.setPassword(DBUtils.hash(currentUser.getPassword()));
+            PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pst.setString(1, currentUser.getEmail_id());
+            pst.setString(2, currentUser.getPassword());
+            pst.setString(3, currentUser.getFirst_name());
+            pst.setString(4, currentUser.getLast_name());
+            
+            pst.executeUpdate();
+
+            ResultSet rs = pst.getGeneratedKeys();
+            if(rs.next()){
+                currentUser.setUser_id(rs.getInt(1));
+                userList.add(currentUser);
+                return "index?faces-redirect=true";
+            
+            }
+                
+                
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+       
     }
 
     public boolean deleteUserById(int id) {
@@ -81,14 +110,37 @@ public class UserController implements Serializable {
         return false;
     }
 
-    public boolean updateUserById() {
-        for (User u : userList) {
-            if (u.getUser_id() == currentUser.getUser_id()) {
-                u.setUser_id(currentUser.getUser_id());
+    public String updateUser() {
+
+        try {
+            
+            String sql = "UPDATE `user` SET `email_id` = ?, `password` = ?, `first_name` = ?, `last_name` = ? WHERE `user`.`user_id` = ?";
+            Connection conn = DBUtils.getConnection();
+            currentUser.setPassword(DBUtils.hash(currentUser.getPassword()));
+            PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pst.setString(1, currentUser.getEmail_id());
+            pst.setString(2, currentUser.getPassword());
+            pst.setString(3, currentUser.getFirst_name());
+            pst.setString(4, currentUser.getLast_name());
+            pst.setInt(5, currentUser.getUser_id());
+
+            pst.executeUpdate();
+
+            for (User u : userList) {
+                if (u.getUser_id() == currentUser.getUser_id()) {
+                    u.setEmail_id(currentUser.getEmail_id());
+                    u.setFirst_name(currentUser.getFirst_name());
+                    u.setLast_name(currentUser.getLast_name());
+                    u.setPassword(currentUser.getPassword());
+                    
+                    return "home?faces-redirect=true";
+                }
+                
             }
-            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return null;
     }
 
     public User getUserById(int id) {
@@ -101,6 +153,7 @@ public class UserController implements Serializable {
     }
 
     public String doLogIn() {
+        currentUser.setPassword(DBUtils.hash(currentUser.getPassword()));
         for (User u : userList) {
             if (u.getEmail_id().equals(currentUser.getEmail_id()) && u.getPassword().equals(currentUser.getPassword())) {
                 IsLoggedIn = true;
