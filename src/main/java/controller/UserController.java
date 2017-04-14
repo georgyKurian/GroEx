@@ -22,6 +22,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import model.Bill;
 import model.User;
+import controller.MyMail;
 
 /**
  *
@@ -69,9 +70,10 @@ public class UserController implements Serializable {
     }
 
     public String addUser() {
+        MyMail newMail = new MyMail();
         currentUser.setPassword(DBUtils.hash(currentUser.getPassword()));
-                try {
-            
+        try {
+
             String sql = "INSERT INTO `user` (`user_id`, `email_id`, `password`, `first_name`, `last_name`) VALUES (NULL, ?, ?, ?, ?);";
             Connection conn = DBUtils.getConnection();
             currentUser.setPassword(DBUtils.hash(currentUser.getPassword()));
@@ -80,24 +82,23 @@ public class UserController implements Serializable {
             pst.setString(2, currentUser.getPassword());
             pst.setString(3, currentUser.getFirst_name());
             pst.setString(4, currentUser.getLast_name());
-            
+
             pst.executeUpdate();
 
             ResultSet rs = pst.getGeneratedKeys();
-            if(rs.next()){
+            if (rs.next()) {
                 currentUser.setUser_id(rs.getInt(1));
                 userList.add(currentUser);
+                newMail.sendWelcomeMail(currentUser.getEmail_id(), currentUser.getFirst_name() + " " + currentUser.getLast_name());
                 return "index?faces-redirect=true";
-            
+
             }
-                
-                
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-       
+
     }
 
     public boolean deleteUserById(int id) {
@@ -113,7 +114,7 @@ public class UserController implements Serializable {
     public String updateUser() {
 
         try {
-            
+
             String sql = "UPDATE `user` SET `email_id` = ?, `password` = ?, `first_name` = ?, `last_name` = ? WHERE `user`.`user_id` = ?";
             Connection conn = DBUtils.getConnection();
             currentUser.setPassword(DBUtils.hash(currentUser.getPassword()));
@@ -132,10 +133,10 @@ public class UserController implements Serializable {
                     u.setFirst_name(currentUser.getFirst_name());
                     u.setLast_name(currentUser.getLast_name());
                     u.setPassword(currentUser.getPassword());
-                    
+
                     return "home?faces-redirect=true";
                 }
-                
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
