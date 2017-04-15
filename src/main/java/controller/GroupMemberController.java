@@ -32,28 +32,50 @@ public class GroupMemberController implements Serializable {
     List<GroupMember> groupMemberList;
     GroupMember currentGroupMember;
 
+    /**
+     * It initializes currentGroupMember and loads data from database
+     */
     public GroupMemberController() {
         currentGroupMember = new GroupMember();
         refreshFromDB();
     }
 
+    /**
+     * getting the list from db
+     * @return groupMemberList
+     */
     public List<GroupMember> getGroupMemberList() {
         refreshFromDB();
         return groupMemberList;
     }
 
+    /**
+     *Setting the groupMemberList
+     * @param groupMemberList
+     */
     public void setGroupMemberList(List<GroupMember> groupMemberList) {
         this.groupMemberList = groupMemberList;
     }
 
+    /**
+     * get the currentGroupMember 
+     * @return currentGroupMember
+     */
     public GroupMember getCurrentGroupMember() {
         return currentGroupMember;
     }
 
+    /**
+     * Sets currentGroupMember to the variable
+     * @param currentGroupMember
+     */
     public void setCurrentGroupMember(GroupMember currentGroupMember) {
         this.currentGroupMember = currentGroupMember;
     }
 
+    /**
+     * Adding a new GroupMember to db
+     */
     public void addGroupmember() {
         try {
 
@@ -74,6 +96,12 @@ public class GroupMemberController implements Serializable {
 
     }
 
+    /**
+     * Checks whether the groupMember is present in the list or not.
+     * @param groupId
+     * @param userId
+     * @return boolean
+     */
     public boolean hasGroupMemberInGroup(int groupId, int userId) {
         List<GroupMember> refinedGroupMembers = new ArrayList<>();
         for (GroupMember gMember : groupMemberList) {
@@ -84,6 +112,11 @@ public class GroupMemberController implements Serializable {
         return false;
     }
     
+    /**
+     * getting a groupMember with the id 
+     * @param groupId
+     * @return refinedGroupMembers
+     */
     public List<GroupMember> getgroupMembersByGroupId(int groupId) {
         List<GroupMember> refinedGroupMembers = new ArrayList<>();
         for (GroupMember gMember : groupMemberList) {
@@ -94,6 +127,10 @@ public class GroupMemberController implements Serializable {
         return refinedGroupMembers;
     }
 
+    /**
+     * deleting groupMember from the database
+     * @return boolean
+     */
     public boolean deleteCurrentGroupmember() {
         try {
 
@@ -119,6 +156,12 @@ public class GroupMemberController implements Serializable {
         return false;
     }
 
+    /**
+     * Deleting from the list 
+     * @param groupId
+     * @param userId
+     * @return boolean
+     */
     public boolean deleteWithGroupIdAndUserId(int groupId, int userId) {
         boolean deleted = false;
         for (GroupMember gMember : groupMemberList) {
@@ -130,6 +173,11 @@ public class GroupMemberController implements Serializable {
         return deleted;
     }
 
+    /**
+     * Removing from the list using groupId
+     * @param groupId
+     * @return boolean
+     */
     public boolean deleteAllWithGroupId(int groupId) {
         boolean deleted = false;
         for (GroupMember gMember : groupMemberList) {
@@ -141,6 +189,12 @@ public class GroupMemberController implements Serializable {
         return deleted;
     }
 
+    /**
+     *Removing from the list using grupId and userId
+     * @param groupId
+     * @param userId
+     * @return boolean
+     */
     public boolean deleteAllWithUserId(int groupId, int userId) {
         boolean deleted = false;
         for (GroupMember gMember : groupMemberList) {
@@ -152,12 +206,22 @@ public class GroupMemberController implements Serializable {
         return deleted;
     }
 
+    /**
+     * delete from db
+     * @param groupmember
+     * @return groupHome
+     */
     public String delete(GroupMember groupmember) {
         currentGroupMember = groupmember;
         deleteCurrentGroupmember();
         return "groupHome?faces-redirect=true";
     }
 
+    /**
+     * getting the number of Members from the list
+     * @param groupId
+     * @return count
+     */
     public int getNumberOfMembersByGroupId(int groupId) {
         int count = 0;
         for (GroupMember gMember : groupMemberList) {
@@ -168,6 +232,9 @@ public class GroupMemberController implements Serializable {
         return count;
     }
 
+    /**
+     *Updates the groupMemberList with the changes
+     */
     public void refreshFromDB() {
         groupMemberList = new ArrayList<>();
         try {

@@ -31,28 +31,52 @@ public class GroupController implements Serializable {
     private List<Group> groupList;
     private Group currentGroup;
 
+    /**
+     * It initializes currentGroup and loads data from database
+     */
     public GroupController() {
         currentGroup = new Group();
         refreshFromDB();
 
     }
 
+    /**
+     * gets the GroupList
+     * @return groupList
+     */
     public List<Group> getGroupList() {
         return groupList;
     }
 
+    /**
+     * Sets the groupList to current variable
+     * @param groupList
+     */
     public void setGroupList(List<Group> groupList) {
         this.groupList = groupList;
     }
 
+    /**
+     * Gets currentGroup
+     * @return currentGroup
+     */
     public Group getCurrentGroup() {
         return currentGroup;
     }
 
+    /**
+     * Sets currentGroup to the variable
+     * @param currentGroup
+     */
     public void setCurrentGroup(Group currentGroup) {
         this.currentGroup = currentGroup;
     }
 
+    /**
+     * Adds the group with groupId in the database  
+     * @param userId
+     * @return groupSetting page
+     */
     public String addGroup(int userId) {
         try {
 
@@ -84,6 +108,11 @@ public class GroupController implements Serializable {
         return "groupSettings?faces-redirect=true";
     }
 
+    /**
+     * gets the group with id
+     * @param groupId
+     * @return group
+     */
     public Group getGroupById(int groupId) {
         for (Group group : groupList) {
             if (group.getGroup_id() == groupId) {
@@ -93,11 +122,19 @@ public class GroupController implements Serializable {
         return null;
     }
 
+    /**
+     * Creates a new group page
+     * @return createGroup page
+     */
     public String addGroupPage() {
         this.currentGroup = new Group();
         return "createGroup?faces-redirect=true";
     }
 
+    /**
+     * Removes the group from the database
+     * @return boolean
+     */
     public boolean deleteGroup() {
 
         try {
@@ -124,6 +161,9 @@ public class GroupController implements Serializable {
         return false;
     }
 
+    /**
+     * Updates the group with the changes
+     */
     public void editGroup() {
         try {
 
@@ -148,11 +188,19 @@ public class GroupController implements Serializable {
 
     }
 
+    /**
+     * Assigning group to currentGroup
+     * @param group
+     * @return groupHome
+     */
     public String getGroupHomePage(Group group) {
         currentGroup = group;
         return "groupHome?faces-redirect=true";
     }
 
+    /**
+     *Selecting the particular group from the list
+     */
     public void refreshFromDB() {
         groupList = new ArrayList<>();
         try {

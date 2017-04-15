@@ -38,6 +38,9 @@ public class UserController implements Serializable {
     private User currentUser;
     private String searchPattern;
 
+    /**
+     *It initializes user and loads data from database
+     */
     public UserController() {
         searchPattern = "";
         IsLoggedIn = false;
@@ -45,30 +48,58 @@ public class UserController implements Serializable {
         refreshFromDB();
     }
 
+    /**
+     * To check whether its logged in or not
+     * @return IsLoggedIn
+     */
     public boolean isIsLoggedIn() {
         return IsLoggedIn;
     }
 
+    /**
+     * To set the status as logged in
+     * @param IsLoggedIn
+     */
     public void setIsLoggedIn(boolean IsLoggedIn) {
         this.IsLoggedIn = IsLoggedIn;
     }
 
+    /**
+     * Gets the list of users
+     * @return userList-list of user
+     */
     public List<User> getUserList() {
         return userList;
     }
 
+    /**
+     * Sets the list to variable
+     * @param userList-list of user
+     */
     public void setUserList(List<User> userList) {
         this.userList = userList;
     }
 
+    /**
+     *Gets the current User
+     * @return currentUser-the user who has signed in
+     */
     public User getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * Sets the currentUser to new variable
+     * @param currentUser
+     */
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
 
+    /**
+     * Adds the user to the db
+     * @return to index page
+     */
     public String addUser() {
         MyMail newMail = new MyMail();
         currentUser.setPassword(DBUtils.hash(currentUser.getPassword()));
@@ -101,6 +132,11 @@ public class UserController implements Serializable {
 
     }
 
+    /**
+     * delete the user with the id
+     * @param id
+     * @return boolean
+     */
     public boolean deleteUserById(int id) {
         for (User u : userList) {
             if (u.getUser_id() == id) {
@@ -111,6 +147,10 @@ public class UserController implements Serializable {
         return false;
     }
 
+    /**
+     * Updates the user details in the db 
+     * @return home page
+     */
     public String updateUser() {
 
         try {
@@ -144,6 +184,11 @@ public class UserController implements Serializable {
         return null;
     }
 
+    /**
+     * get the user with the id
+     * @param id
+     * @return u- object of user
+     */
     public User getUserById(int id) {
         for (User u : userList) {
             if (u.getUser_id() == id) {
@@ -153,6 +198,10 @@ public class UserController implements Serializable {
         return null;
     }
 
+    /**
+     * Verifies the username and the password and goes to the respective page
+     * @return to home page or index page
+     */
     public String doLogIn() {
         currentUser.setPassword(DBUtils.hash(currentUser.getPassword()));
         for (User u : userList) {
@@ -165,6 +214,10 @@ public class UserController implements Serializable {
         return "index?faces-redirect=true";
     }
 
+    /**
+     *gets the list and checks email id 
+     * @return email
+     */
     public List<String> getSuggestion() {
         List<String> email = new ArrayList<>();
 
@@ -174,17 +227,28 @@ public class UserController implements Serializable {
         return email;
     }
 
+    /**
+     * checks whether is login or not
+     * @return index page
+     */
     public String logout() {
         this.IsLoggedIn = false;
         this.currentUser = new User();
         return "index?faces-redirect=true";
     }
 
+    /**
+     * takes user  to sign up page
+     * @return  to sign up page
+     */
     public String signup() {
         this.currentUser = new User();
         return "signup?faces-redirect=true";
     }
 
+    /**
+     * Selecting the particular user from the list
+     */
     public void refreshFromDB() {
         userList = new ArrayList<>();
         try {

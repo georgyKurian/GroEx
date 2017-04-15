@@ -19,8 +19,17 @@ import java.util.logging.Logger;
  * @author c0687174
  */
 public class DBUtils {
+
+    /**
+     * Hashing the password
+     */
     public final static String SALT = "THISISArandomSTRINGofCHARACTERSusedTOsaltTHEpasswords";
 
+    /**
+     *Hashing the string
+     * @param password
+     * @return hash to string
+     */
     public static String hash(String password) {
         try {
             String salted = password + SALT;
@@ -42,6 +51,11 @@ public class DBUtils {
         }
     }
 
+    /**
+     * creating connection to mySql database
+     * @return connection
+     * @throws SQLException
+     */
     public static Connection getConnection() throws SQLException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

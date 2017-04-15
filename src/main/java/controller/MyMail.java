@@ -29,6 +29,9 @@ public class MyMail implements Serializable {
 
     Properties props;
 
+    /**
+     * initialize the value
+     */
     public MyMail() {
         username = "groexmail@gmail.com";
         password = "wearegreat";
@@ -40,6 +43,11 @@ public class MyMail implements Serializable {
         props.put("mail.smtp.port", "587");
     }
 
+    /**
+     * Sends welcome mail to the user
+     * @param recepientEmail recepientsEmail Id
+     * @param recepientName recepientsName 
+     */
     public void sendWelcomeMail(String recepientEmail, String recepientName) {
         Session session;
         session = Session.getInstance(props,
