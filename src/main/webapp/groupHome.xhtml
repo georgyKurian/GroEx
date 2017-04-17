@@ -44,11 +44,11 @@
                 <div class="col-sm-2">
                     <br/>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-5" style="border: 1px solid black">
                     <h:dataTable value="#{billController.getBillListByGroupId(groupController.currentGroup.group_id)}" var="bill" >
 
                         <h:column>
-                            <f:facet name="header">Date &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</f:facet>
+                            <f:facet name="header">Date &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</f:facet>
                             <h:outputText value="#{bill.bill_date}" >
                                 <f:convertDateTime pattern="dd MMM yyyy" />
                             </h:outputText>
@@ -83,7 +83,7 @@
 
 
                         <h:column>
-                            <f:facet name="header">Type &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</f:facet>
+                            <f:facet name="header">Type &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</f:facet>
                                 #{bill.bill_type}
                         </h:column>
 
@@ -101,7 +101,7 @@
                     </h:dataTable>
 
                 </div>
-                <div class="col-sm-4" style="float:right;width:40%;">
+                <div class="col-sm-4" style="float:right;width:40%; border: 1px solid gold;">
                     <h2>Summary</h2>
                     <div>
                         <c:set var="totalExpense" value="#{billController.getTotalExpenseByGroupId(groupController.currentGroup.group_id)}"/>
