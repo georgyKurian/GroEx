@@ -3,137 +3,185 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
     <h:head>
-        <title>Facelet Title</title>
+        <title>Group Home</title>
     </h:head>
-    <h:body>
+    <h:body style="font-family: cambria">
         <!-- Group name block start here -->
-        <div style="overflow:hidden;">
-            <div style="float:left;">
-                <h2>#{groupController.currentGroup.group_name}</h2>
+        <div id="page">
+            <div id="header">
+                <ui:insert name="header">
+                    <ui:include src="/header.xhtml"/>
+                </ui:insert>
             </div>
-            <div style="float:left;">
-                <h:button  value="Settings" outcome="groupSettings"/>
-            </div>
-            <div style="float:left;">
-                <h:button value="Expense Graph" outcome="expenseGraph"/>
-            </div>
-            <div style="float:left;">
-                <h:button value="Add Bill" outcome="addBill"/>
-            </div>
-        </div>
-        <!-- Group name block end here -->
-        <div style="">
-            <h:dataTable value="#{billController.getBillListByGroupId(groupController.currentGroup.group_id)}" var="bill" >
-                <h:column>
-                    <f:facet name="header">Date</f:facet>
-                    <h:outputText value="#{bill.bill_date}" >
-                        <f:convertDateTime pattern="dd MMM yyyy" />
-                    </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Name</f:facet>
-                        #{userController.getUserById(bill.user_id).first_name}
-                        #{userController.getUserById(bill.user_id).last_name}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Description</f:facet>
-                        #{bill.bill_description}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Amount</f:facet>
-                    <h:outputText value="#{bill.bill_amount}">
-                        <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
-                    </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Type</f:facet>
-                        #{bill.bill_type}
-                </h:column>
-                <h:column>
-                    <h:form>
-                        <h:commandLink value="Edit" action="#{billController.edit(bill)}"/> 
-                    </h:form>
-                </h:column>
-                <h:column>
-                    <h:form>
-                        <h:commandLink value="Delete" action="#{billController.delete(bill)}"/> 
-                    </h:form>
-                </h:column>
+            <div class="row">
 
-            </h:dataTable>
-        </div>
-        <div style="float:right;width:50%;">
-            <h2>Summary</h2>
-            <div>
-                <c:set var="totalExpense" value="#{billController.getTotalExpenseByGroupId(groupController.currentGroup.group_id)}"/>
-                <c:set var="noOfMembers" value="#{groupMemberController.getNumberOfMembersByGroupId(groupController.currentGroup.group_id)}"/>
-                <c:set var="individualExpense" value="#{noOfMembers==0?0:totalExpense/noOfMembers}"/>
-                <c:set var="contribution" value="#{billController.getTotalExpenseByGroupIdAndUserId(groupController.currentGroup.group_id, userController.currentUser.user_id)}"/>
-                <c:set var="balance" value="#{individualExpense-contribution}"/>
+                <div class="col-sm-10" style="overflow:hidden;">
+                    <div class="col-sm-2" style="float:left;">
+                        <h2>#{groupController.currentGroup.group_name}</h2>
+                    </div>
+                    <div class="col-sm-2" style="float:left;">
+                        <h:button class="btn btn-success btn-lg" value="Settings" outcome="groupSettings"/>
+                    </div>
+                    <div class="col-sm-2" style="float:left;">
+                        <h:button class="btn btn-lg btn-warning" value="Expense Graph" outcome="expenseGraph"></h:button>
+                    </div>
+                    <div class="col-sm-3" style="float:left;">
+                        <h:button class="btn btn-lg btn-info" value="Add Bill" outcome="addBill"/>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <br/>
+                </div>
+            </div><br/><br/>
+            <!-- Group name block end here -->
+            <div class="row">
+                <div class="col-sm-2">
+                    <br/>
+                </div>
+                <div class="col-sm-5">
+                    <h:dataTable value="#{billController.getBillListByGroupId(groupController.currentGroup.group_id)}" var="bill" >
 
-                <c:if test="#{balance lt 0}">
-                    <label>You are Owed : </label>
-                    <h:outputText value="#{balance*-1}">
-                        <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
-                    </h:outputText>
-                </c:if>
-                <c:if test="#{balance gt 0}">
-                    <label>You Owe : </label>
-                    <h:outputText value="#{balance}">
-                        <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
-                    </h:outputText>
-                </c:if>
-                <c:if test="#{balance eq 0}">
-                    <label> settled up </label>
-                </c:if>
-            </div>
+                        <h:column>
+                            <f:facet name="header">Date &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</f:facet>
+                            <h:outputText value="#{bill.bill_date}" >
+                                <f:convertDateTime pattern="dd MMM yyyy" />
+                            </h:outputText>
+                        </h:column>
 
-            <!-- Group members block start here -->
-            <div>
-                <h3>Group Members</h3>
-                <h:form>
-                    <c:forEach var="eachMember" items="#{groupMemberController.getgroupMembersByGroupId(groupController.currentGroup.group_id)}">
-                        <c:if test="#{eachMember.user_id != userController.currentUser.user_id}">
 
-                            <div>
-                                <div style="float:left;">
 
-                                </div>
-                                <div>
-                                    <c:set var="balance" value="#{individualExpense-billController.getTotalExpenseByGroupIdAndUserId(groupController.currentGroup.group_id, eachMember.user_id)}"/>
-                                    <label class="name">
-                                        #{userController.getUserById(eachMember.user_id).first_name}&nbsp;#{userController.getUserById(eachMember.user_id).last_name}
-                                    </label>
+                        <h:column>
+                            <f:facet  name="header">Name &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</f:facet>
+                                #{userController.getUserById(bill.user_id).first_name}
+                                #{userController.getUserById(bill.user_id).last_name}
+                        </h:column>
 
-                                    <c:if test="#{balance lt 0}">
-                                        <label> gets back </label>
-                                        <label class="money">
-                                            <h:outputText value="#{balance*-1}">
-                                                <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
-                                            </h:outputText>
-                                        </label>
-                                    </c:if>
-                                    <c:if test="#{balance gt 0}">
-                                        <label> owes </label>
-                                        <label class="money">
-                                            <h:outputText value="#{balance}">
-                                                <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
-                                            </h:outputText>
-                                        </label>
-                                    </c:if>
-                                    <c:if test="#{balance eq 0}">
-                                        <label> settled up </label>
-                                    </c:if>
-                                </div>
-                                <br/>
-                            </div>
+
+
+                        <h:column>
+                            <f:facet name="header">Description &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;</f:facet>
+                                #{bill.bill_description}
+                        </h:column>
+
+
+
+
+
+                        <h:column>
+                            <f:facet name="header">Amount &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;</f:facet>
+                            <h:outputText value="#{bill.bill_amount}">
+                                <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
+                            </h:outputText>
+                        </h:column>
+
+
+
+                        <h:column>
+                            <f:facet name="header">Type &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</f:facet>
+                                #{bill.bill_type}
+                        </h:column>
+
+                        <h:column>
+                            <h:form>
+                                <h:commandLink  action="#{billController.edit(bill)}"><span class="glyphicon glyphicon-edit" style="font-size: 1.2em;"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h:commandLink>
+                            </h:form>
+                        </h:column>
+                        <h:column>
+                            <h:form>
+                                <h:commandLink  action="#{billController.delete(bill)}"> <span class="glyphicon glyphicon-remove-sign" style="color: red; font-size: 1.5em;"></span></h:commandLink>
+                            </h:form>
+                        </h:column>
+
+                    </h:dataTable>
+
+                </div>
+                <div class="col-sm-4" style="float:right;width:40%;">
+                    <h2>Summary</h2>
+                    <div>
+                        <c:set var="totalExpense" value="#{billController.getTotalExpenseByGroupId(groupController.currentGroup.group_id)}"/>
+                        <c:set var="noOfMembers" value="#{groupMemberController.getNumberOfMembersByGroupId(groupController.currentGroup.group_id)}"/>
+                        <c:set var="individualExpense" value="#{noOfMembers==0?0:totalExpense/noOfMembers}"/>
+                        <c:set var="contribution" value="#{billController.getTotalExpenseByGroupIdAndUserId(groupController.currentGroup.group_id, userController.currentUser.user_id)}"/>
+                        <c:set var="balance" value="#{individualExpense-contribution}"/>
+
+                        <c:if test="#{balance lt 0}">
+                            <label>You are Owed : </label>
+                            <h:outputText value="#{balance*-1}">
+                                <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
+                            </h:outputText>
                         </c:if>
-                    </c:forEach>
-                </h:form>
+                        <c:if test="#{balance gt 0}">
+                            <label>You Owe : </label>
+                            <h:outputText value="#{balance}">
+                                <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
+                            </h:outputText>
+                        </c:if>
+                        <c:if test="#{balance eq 0}">
+                            <label> settled up </label>
+                        </c:if>
+                    </div>
+
+                    <!-- Group members block start here -->
+
+                    <h3>Group Members</h3>
+                    <h:form>
+                        <c:forEach var="eachMember" items="#{groupMemberController.getgroupMembersByGroupId(groupController.currentGroup.group_id)}">
+                            <c:if test="#{eachMember.user_id != userController.currentUser.user_id}">
+
+                                <div>
+                                    <div style="float:left;">
+
+                                    </div>
+                                    <div>
+                                        <c:set var="balance" value="#{individualExpense-billController.getTotalExpenseByGroupIdAndUserId(groupController.currentGroup.group_id, eachMember.user_id)}"/>
+                                        <label class="name">
+                                            #{userController.getUserById(eachMember.user_id).first_name}&nbsp;#{userController.getUserById(eachMember.user_id).last_name}
+                                        </label>
+
+                                        <c:if test="#{balance lt 0}">
+                                            <label> gets back </label>
+                                            <label class="money">
+                                                <h:outputText value="#{balance*-1}">
+                                                    <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
+                                                </h:outputText>
+                                            </label>
+                                        </c:if>
+                                        <c:if test="#{balance gt 0}">
+                                            <label> owes </label>
+                                            <label class="money">
+                                                <h:outputText value="#{balance}">
+                                                    <f:convertNumber maxFractionDigits="2" groupingUsed="true" currencySymbol="$" maxIntegerDigits="7" type="currency" />
+                                                </h:outputText>
+                                            </label>
+                                        </c:if>
+                                        <c:if test="#{balance eq 0}">
+                                            <label> settled up </label>
+                                        </c:if>
+                                    </div>
+                                    <br/>
+                                </div>
+                            </c:if>
+                        </c:forEach>
+
+                    </h:form>
+                </div>
+
+
+                <!-- Group members block end here -->
+
             </div>
-            <!-- Group members block end here -->
         </div>
-    </h:body>
+    </h:body><br/><br/><br/><br/><br/><br/>
+    <div id="footer" style="margin-left: 40%;">
+        <ui:insert>
+            <ui:include src="/footer.xhtml"/> 
+        </ui:insert>
+    </div>
+
 </html>

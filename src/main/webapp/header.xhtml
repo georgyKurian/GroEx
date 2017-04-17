@@ -32,14 +32,14 @@
                                     <ul class="dropdown-menu">
 
                                         <li>
-                                            <h:link outcome="userSettings" value="Settings"/>
+                                            <h:link outcome="userSettings" >Settings &nbsp;&nbsp;<span class="glyphicon glyphicon-cog"></span></h:link>
                                         </li>
                                         <li>
-                                            <h:link outcome="GroExHelp.htm">Help</h:link>>
+                                            <h:link outcome="GroExHelp.htm">Help</h:link>
                                         </li>
                                         <li>
                                             <h:commandLink action="#{userController.logout()}">
-                                                Logout<span class="glyphicon glyphicon-log-in"></span>
+                                                Logout &nbsp;&nbsp;<span class="glyphicon glyphicon-log-in"></span>
                                             </h:commandLink>
                                         </li>
                                     </ul>

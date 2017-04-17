@@ -2,30 +2,86 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Facelet Title</title>
+        <title> Split expense with group ::GroEx </title>
+        <meta charset="utf-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+        <!--<link rel="stylesheet" href="css/styles.css"> -->
+        <link rel="stylesheet" href="js/jquery-ui.min.css"></link>
+        <link rel="stylesheet" href="css/styles.css"></link> 
+
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
     </h:head>
     <h:body>
-        <h:form>
+        <div id="page">
+            <div id="header">
+                <ui:insert name="header">
+                    <ui:include src="/header.xhtml"/>
+                </ui:insert>
+            </div>
+        <h:form class="form-horizontal">
 
-            <label for="bill_description">Description</label>
-            <h:inputText value="#{billController.currentBill.bill_description}"/>
+            <div class="col-sm-4">
+                <br/>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
 
-            <label for="bill_amount">Amount</label>
-            <h:inputText value="#{billController.currentBill.bill_amount}"/>
+                    <div class="form-group">    
+                        <label class="control-label col-sm-2" for="bill_description">Description</label>
+                        <div class="col-sm-8">
+                            <h:inputText class="form-control" value="#{billController.currentBill.bill_description}"/>
+                        </div>
+                    </div>
 
-            <label for="bill_date">Bill Date</label>
-            <h:inputText value="#{billController.currentBill.bill_date}" converterMessage="dd/MM/yyyy">
-               <f:convertDateTime pattern="dd/MM/yyyy"/>;
-            </h:inputText>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="bill_amount">Amount</label>
+                        <div class="col-sm-8">
+                            <h:inputText class="form-control" value="#{billController.currentBill.bill_amount}"/>
+                        </div>
+                    </div>
 
-            <label for="bill_date">Type</label>            
-            <h:inputText value="#{billController.currentBill.bill_type}"/>
-            #{userController.currentUser.user_id}
-            
-            <h:commandButton value="Submit" action="#{billController.editBill()}"/>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="bill_date">BillDate</label>
+                        <div class="col-sm-8">
+                            <h:inputText class="form-control" value="#{billController.currentBill.bill_date}" converterMessage="dd/MM/yyyy">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>;
+                            </h:inputText>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="bill_date">Type</label>  
+                        <div class="col-sm-8">
+                            <h:inputText class="form-control" value="#{billController.currentBill.bill_type}"/>
+                            #{userController.currentUser.user_id}
+                        </div>
+                    </div>
+
+                    
+                        <h:commandButton class="btn btn-success btn-lg col-sm-10"  value="Submit" action="#{billController.editBill()}"/>
+                   
+               
+                    </div>
+            </div>
+            <div class="col-sm-4">
+                <br/>
+            </div>
+
         </h:form>
+            <div id="footer">
+                <ui:insert>
+                    <ui:include src="/footer.xhtml"/> 
+                </ui:insert>
+            </div>
+            </div>
     </h:body>
 </html>
 

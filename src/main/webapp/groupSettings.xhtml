@@ -38,13 +38,15 @@
                 <h2>
                     <h:form>
                         <div class="col-sm-4">
-                            <h:inputText value="#{groupController.currentGroup.group_name}" id="groupName" >
+                            <h:inputText class="form-control" style="font-size: 0.7em;" value="#{groupController.currentGroup.group_name}" id="groupName" >
 
                             </h:inputText>
-
-                            <h:commandButton action="#{groupController.editGroup()}" id="hiddenSubmit" value="Change">
+                            
+                            <div>
+                            <h:commandButton class="btn btn-info btn-md"  action="#{groupController.editGroup()}" id="hiddenSubmit" value="Change">
                                 <f:ajax execute="groupName hiddenSubmit" event="change"/>
                             </h:commandButton>
+                                </div>
                         </div>
                     </h:form>
                 </h2>
@@ -79,13 +81,13 @@
                             </div> 
                             <div style="float:none;">
                                 <h:form>  
-                                    <div class="col-sm-3">
-                                        <h:selectOneMenu value="#{groupMemberController.currentGroupMember.user_id}" id="newMember" >
+                                    <div class="col-sm-3" >
+                                        <h:selectOneMenu  value="#{groupMemberController.currentGroupMember.user_id}" id="newMember" >
                                             <f:selectItems value="#{userController.userList}" var="list" itemLabel="#{list.email_id}"
                                                            itemValue="#{list.user_id}"/>
                                         </h:selectOneMenu>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
 
                                         #{groupMemberController.currentGroupMember.setGroup_id(groupController.currentGroup.group_id)}
                                         <h:commandButton class="btn  btn-success btn-md" value="Add" action="#{groupMemberController.addGroupmember()}" id="add">
@@ -94,9 +96,9 @@
                                     </div>
 
                                 </h:form>
-                            </div><br></br><br></br><br></br><br></br>
-                            <div class="col-sm-6" style="width: 46%; height: 25%;">
-                                <h:button outcome="groupHome" value="Back"/>
+                            </div><br></br><br></br><br></br>
+                            <div class="col-sm-6" style="width: 50%; height: 25%;">
+                                <h:button  outcome="groupHome" value="Back"/>
                             </div>
                         </h:form>
                         <div class="col-sm-4">

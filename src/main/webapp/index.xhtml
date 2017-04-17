@@ -9,8 +9,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
         <!--<link rel="stylesheet" href="css/styles.css"> -->
         <link rel="stylesheet" href="css/styles.css"></link> 
-        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-        <script src="js/myFunction.js"></script>
+        <!--<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="js/myFunction.js"></script> -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
         <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
@@ -30,14 +30,14 @@
                         <div class="form-group">
                             <label class="control-label col-sm-4" >Email Id</label>
                             <div class="col-sm-4">
-                                <h:inputText  class="form-control" id="email"  value="#{userController.currentUser.email_id}"/>&nbsp;<span id="spann" style="color:red">*</span><br></br> <br></br>
+                                <h:inputText  class="form-control" id="email"  value="#{userController.currentUser.email_id}"/><br></br> <br></br>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-sm-4">Password </label>
                             <div class="col-sm-4">
-                                <h:inputSecret class="form-control" id="password" value="#{userController.currentUser.password}"/>&nbsp;<span id="spann1" style="color:red">*</span> <br></br> <br></br>
+                                <h:inputSecret class="form-control" id="password" value="#{userController.currentUser.password}"/> <br></br> <br></br>
                             </div>
                         </div>
                         <div class="form-group">
