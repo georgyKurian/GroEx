@@ -1,4 +1,5 @@
 package model;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,11 +11,11 @@ package model;
  * @author c0687174
  */
 public class User {
-    
-    private  int user_id ;
+
+    private int user_id;
     private String email_id;
     private String password;
-    private String first_name ;
+    private String first_name;
     private String last_name;
 
     public User() {
@@ -28,7 +29,6 @@ public class User {
         this.last_name = last_name;
     }
 
-    
     public int getUser_id() {
         return user_id;
     }
@@ -68,8 +68,20 @@ public class User {
     public void setLast_name(String last_name) {
         this.last_name = last_name;
     }
-    
-    
-   
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof User) {
+            User user = (User) obj;
+
+            if (user.user_id == this.user_id
+                    && user.email_id == this.email_id
+                    && user.first_name == this.first_name
+                    && user.last_name == this.last_name) {
+                    return true;
+            }
+        }
+        return false;
+    }
+
 }
