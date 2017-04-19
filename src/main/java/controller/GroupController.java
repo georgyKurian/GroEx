@@ -17,7 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import model.Bill;
 import model.Group;
 
 /**
@@ -42,6 +41,7 @@ public class GroupController implements Serializable {
 
     /**
      * gets the GroupList
+     *
      * @return groupList
      */
     public List<Group> getGroupList() {
@@ -50,6 +50,7 @@ public class GroupController implements Serializable {
 
     /**
      * Sets the groupList to current variable
+     *
      * @param groupList
      */
     public void setGroupList(List<Group> groupList) {
@@ -58,6 +59,7 @@ public class GroupController implements Serializable {
 
     /**
      * Gets currentGroup
+     *
      * @return currentGroup
      */
     public Group getCurrentGroup() {
@@ -66,6 +68,7 @@ public class GroupController implements Serializable {
 
     /**
      * Sets currentGroup to the variable
+     *
      * @param currentGroup
      */
     public void setCurrentGroup(Group currentGroup) {
@@ -73,7 +76,8 @@ public class GroupController implements Serializable {
     }
 
     /**
-     * Adds the group with groupId in the database  
+     * Adds the group with groupId in the database
+     *
      * @param userId
      * @return groupSetting page
      */
@@ -83,13 +87,13 @@ public class GroupController implements Serializable {
             String sql = "INSERT INTO `groups` (`group_id`, `group_name`) VALUES (NULL, ?)";
             Connection conn = DBUtils.getConnection();
 
-            PreparedStatement pst = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, currentGroup.getGroup_name());
-            
+
             pst.executeUpdate();
-            
+
             ResultSet rs = pst.getGeneratedKeys();
-            if(rs.next()){
+            if (rs.next()) {
                 currentGroup.setGroup_id(rs.getInt(1));
             }
 
@@ -110,6 +114,7 @@ public class GroupController implements Serializable {
 
     /**
      * gets the group with id
+     *
      * @param groupId
      * @return group
      */
@@ -124,6 +129,7 @@ public class GroupController implements Serializable {
 
     /**
      * Creates a new group page
+     *
      * @return createGroup page
      */
     public String addGroupPage() {
@@ -133,6 +139,7 @@ public class GroupController implements Serializable {
 
     /**
      * Removes the group from the database
+     *
      * @return boolean
      */
     public boolean deleteGroup() {
@@ -190,6 +197,7 @@ public class GroupController implements Serializable {
 
     /**
      * Assigning group to currentGroup
+     *
      * @param group
      * @return groupHome
      */
@@ -199,7 +207,7 @@ public class GroupController implements Serializable {
     }
 
     /**
-     *Selecting the particular group from the list
+     * Selecting the particular group from the list
      */
     public void refreshFromDB() {
         groupList = new ArrayList<>();

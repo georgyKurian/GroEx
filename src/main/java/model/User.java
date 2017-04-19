@@ -5,7 +5,6 @@ package model;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author c0687174
@@ -78,7 +77,7 @@ public class User {
                     && user.email_id == this.email_id
                     && user.first_name == this.first_name
                     && user.last_name == this.last_name) {
-                    return true;
+                return true;
             }
         }
         return false;

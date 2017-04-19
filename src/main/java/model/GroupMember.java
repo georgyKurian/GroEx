@@ -5,23 +5,23 @@ package model;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author c0687174
  */
 public class GroupMember {
+
     private int group_id;
     private int user_id;
 
     public GroupMember() {
     }
-    
+
     public GroupMember(int group_id, int user_id) {
         this.group_id = group_id;
         this.user_id = user_id;
     }
-    
+
     public int getGroup_id() {
         return group_id;
     }
@@ -37,6 +37,5 @@ public class GroupMember {
     public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
-    
-    
+
 }

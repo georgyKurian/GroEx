@@ -5,7 +5,6 @@
  */
 package controller;
 
-
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author c0687174
@@ -26,7 +26,8 @@ public class DBUtils {
     public final static String SALT = "THISISArandomSTRINGofCHARACTERSusedTOsaltTHEpasswords";
 
     /**
-     *Hashing the string
+     * Hashing the string
+     *
      * @param password
      * @return hash to string
      */
@@ -53,6 +54,7 @@ public class DBUtils {
 
     /**
      * creating connection to mySql database
+     *
      * @return connection
      * @throws SQLException
      */
@@ -72,5 +74,3 @@ public class DBUtils {
         return DriverManager.getConnection(jdbc, username, password);
     }
 }
-
-

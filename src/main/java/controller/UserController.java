@@ -15,14 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import model.Bill;
 import model.User;
-import controller.MyMail;
 
 /**
  *
@@ -153,7 +148,7 @@ public class UserController implements Serializable {
             Connection conn = DBUtils.getConnection();
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setInt(1, id);
-            
+
             pst.executeUpdate();
 
             for (User u : userList) {

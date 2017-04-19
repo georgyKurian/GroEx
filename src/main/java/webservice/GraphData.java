@@ -6,8 +6,6 @@
 package webservice;
 
 import controller.BillController;
-import controller.UserController;
-import javax.json.JsonObject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -37,6 +35,7 @@ public class GraphData {
 
     /**
      * Retrieves representation of an instance of webservice.GraphData
+     *
      * @return an instance of java.lang.String
      */
     @GET
@@ -49,6 +48,7 @@ public class GraphData {
 
     /**
      * PUT method for updating or creating an instance of GraphData
+     *
      * @param content representation for the resource
      */
     @PUT

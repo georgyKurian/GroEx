@@ -9,22 +9,21 @@ import java.util.ArrayList;
 import model.Group;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author c0687988
  */
 public class GroupControllerTest {
-    
+
     GroupController groupController;
     Group newGroup;
     Group oldGroup;
 
     public GroupControllerTest() {
-        
+
     }
-    
+
     @Before
     public void setUp() {
         groupController = new GroupController();
@@ -32,12 +31,12 @@ public class GroupControllerTest {
         groupList.add(new Group(1, "Group1"));
         groupList.add(new Group(2, "Group2"));
         groupList.add(new Group(3, "Group3"));
-        
+
         newGroup = new Group(4, "Group4");
         oldGroup = new Group(2, "Group2");
-        
+
         groupController.setGroupList(groupList);
-        
+
     }
 
     /**
@@ -46,13 +45,13 @@ public class GroupControllerTest {
     @Test
     public void testDeleteGroup() {
         System.out.println("deleteGroupWithGroupId");
-        
+
         groupController.setCurrentGroup(oldGroup);
         groupController.deleteGroup();
         Group result = groupController.getGroupById(oldGroup.getGroup_id());
-        
+
         assertNull(result);
-        
+
     }
 
     /**
@@ -65,9 +64,9 @@ public class GroupControllerTest {
         groupController.setCurrentGroup(editGroup);
         groupController.editGroup();
         Group result = groupController.getGroupById(editGroup.getGroup_id());
-        
+
         assertEquals(editGroup, result);
-        
+
     }
 
     /**
@@ -79,9 +78,9 @@ public class GroupControllerTest {
         groupController.setCurrentGroup(newGroup);
         groupController.addGroup(1);
         Group result = groupController.getGroupById(newGroup.getGroup_id());
-        
+
         assertEquals(newGroup, result);
-        
+
     }
-    
+
 }

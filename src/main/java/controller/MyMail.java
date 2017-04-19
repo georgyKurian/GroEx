@@ -7,7 +7,6 @@ package controller;
 
 import java.io.Serializable;
 import java.util.Properties;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -45,8 +44,9 @@ public class MyMail implements Serializable {
 
     /**
      * Sends welcome mail to the user
+     *
      * @param recepientEmail recepientsEmail Id
-     * @param recepientName recepientsName 
+     * @param recepientName recepientsName
      */
     public void sendWelcomeMail(String recepientEmail, String recepientName) {
         Session session;
@@ -66,7 +66,7 @@ public class MyMail implements Serializable {
                     InternetAddress.parse(recepientEmail));
             message.setSubject("Testing Subject");
             message.setText("Dear " + recepientName + ","
-                    + "\n Welcome to GroEx application!"+"\n \n - Regards,\n GroEx Team");
+                    + "\n Welcome to GroEx application!" + "\n \n - Regards,\n GroEx Team");
             System.out.println("Sending message to : " + recepientName);
             Transport.send(message);
 

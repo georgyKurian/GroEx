@@ -1,10 +1,8 @@
 package model;
 
-
 import java.util.Date;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -14,31 +12,31 @@ import javax.validation.constraints.Size;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author c0687174
  */
 public class Bill {
+
     private int bill_id;
     private int group_id;
     private int user_id;
-    
+
     @NotNull
-    @Size(min=4, max=50)
+    @Size(min = 4, max = 50)
     private String bill_description;
-    
+
     @NotNull
-    @Digits(integer=6, fraction=2)
+    @Digits(integer = 6, fraction = 2)
     @DecimalMin("0.00")
     private double bill_amount;
-    
+
     @NotNull
     @Past
     private Date bill_date;
-    
+
     @NotNull
-    @Size(min=4)
+    @Size(min = 4)
     private String bill_type;
 
     public Bill() {
@@ -62,7 +60,6 @@ public class Bill {
         this.user_id = user_id;
     }
 
-    
     public int getBill_id() {
         return bill_id;
     }
@@ -110,5 +107,5 @@ public class Bill {
     public void setBill_type(String bill_type) {
         this.bill_type = bill_type;
     }
-  
+
 }

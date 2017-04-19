@@ -44,7 +44,8 @@ public class BillController implements Serializable {
     }
 
     /**
-     *Gets the list of bills.
+     * Gets the list of bills.
+     *
      * @return billList,List of bills
      */
     public List<Bill> getBillList() {
@@ -53,6 +54,7 @@ public class BillController implements Serializable {
 
     /**
      * Sets billList
+     *
      * @param billList list of bills to be set
      */
     public void setBillList(List<Bill> billList) {
@@ -61,6 +63,7 @@ public class BillController implements Serializable {
 
     /**
      * gets the currentBill value.
+     *
      * @return currentBill
      */
     public Bill getCurrentBill() {
@@ -68,7 +71,8 @@ public class BillController implements Serializable {
     }
 
     /**
-     *Sets the value to currentBill variable.
+     * Sets the value to currentBill variable.
+     *
      * @param currentBill
      */
     public void setCurrentBill(Bill currentBill) {
@@ -76,7 +80,7 @@ public class BillController implements Serializable {
     }
 
     /**
-     *Setting the new values to the database 
+     * Setting the new values to the database
      */
     public void addNewBill() {
         try {
@@ -106,6 +110,7 @@ public class BillController implements Serializable {
 
     /**
      * to submit newBill
+     *
      * @return to groupHome page
      */
     public String submitNewBill() {
@@ -115,6 +120,7 @@ public class BillController implements Serializable {
 
     /**
      * Deletes current bill
+     *
      * @param bill
      */
     public void delete(Bill bill) {
@@ -123,7 +129,8 @@ public class BillController implements Serializable {
     }
 
     /**
-     * Edit previous bill and sets the new value 
+     * Edit previous bill and sets the new value
+     *
      * @param bill
      * @return editBill page
      */
@@ -134,6 +141,7 @@ public class BillController implements Serializable {
 
     /**
      * To get the list using the groupId
+     *
      * @param groupId
      * @return refinedBillList
      */
@@ -148,7 +156,8 @@ public class BillController implements Serializable {
     }
 
     /**
-     *  deletes the bill from the database
+     * deletes the bill from the database
+     *
      * @return boolean
      */
     public boolean deleteCurrentBill() {
@@ -179,6 +188,7 @@ public class BillController implements Serializable {
 
     /**
      * update the bill in the database
+     *
      * @return groupHome page
      */
     public String editBill() {
@@ -219,6 +229,7 @@ public class BillController implements Serializable {
 
     /**
      * To add new bill amount to the previous bill
+     *
      * @param groupId
      * @return total
      */
@@ -234,6 +245,7 @@ public class BillController implements Serializable {
 
     /**
      * To get the total value of all the bills
+     *
      * @param groupId
      * @param userId
      * @return total
@@ -249,21 +261,22 @@ public class BillController implements Serializable {
     }
 
     /**
-     *Using group id getting monthly expenses using Json
+     * Using group id getting monthly expenses using Json
+     *
      * @param groupId
      * @return
      */
     public String getMonthlyExpense(int groupId) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -4);
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("MMM-yyyy");
         //format it to MMM-yyyy // January-2012
         String previousMonthYear;
 
         JsonArrayBuilder monthName = Json.createArrayBuilder();
         JsonArrayBuilder expense = Json.createArrayBuilder();
-        
+
         double total;
         for (int i = 0; i < 5; i++) {
             previousMonthYear = sdf.format(cal.getTime());
@@ -277,8 +290,7 @@ public class BillController implements Serializable {
             expense.add(total);
             cal.add(Calendar.MONTH, 1);
         }
-        
-        
+
         JsonObjectBuilder json = Json.createObjectBuilder();
         json.add("x", monthName.build());
         json.add("y", expense.build());

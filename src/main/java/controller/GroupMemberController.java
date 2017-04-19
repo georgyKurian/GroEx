@@ -17,8 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import model.Bill;
-import model.Group;
 import model.GroupMember;
 
 /**
@@ -42,6 +40,7 @@ public class GroupMemberController implements Serializable {
 
     /**
      * getting the list from db
+     *
      * @return groupMemberList
      */
     public List<GroupMember> getGroupMemberList() {
@@ -50,7 +49,8 @@ public class GroupMemberController implements Serializable {
     }
 
     /**
-     *Setting the groupMemberList
+     * Setting the groupMemberList
+     *
      * @param groupMemberList
      */
     public void setGroupMemberList(List<GroupMember> groupMemberList) {
@@ -58,7 +58,8 @@ public class GroupMemberController implements Serializable {
     }
 
     /**
-     * get the currentGroupMember 
+     * get the currentGroupMember
+     *
      * @return currentGroupMember
      */
     public GroupMember getCurrentGroupMember() {
@@ -67,6 +68,7 @@ public class GroupMemberController implements Serializable {
 
     /**
      * Sets currentGroupMember to the variable
+     *
      * @param currentGroupMember
      */
     public void setCurrentGroupMember(GroupMember currentGroupMember) {
@@ -98,6 +100,7 @@ public class GroupMemberController implements Serializable {
 
     /**
      * Checks whether the groupMember is present in the list or not.
+     *
      * @param groupId
      * @param userId
      * @return boolean
@@ -105,15 +108,16 @@ public class GroupMemberController implements Serializable {
     public boolean hasGroupMemberInGroup(int groupId, int userId) {
         List<GroupMember> refinedGroupMembers = new ArrayList<>();
         for (GroupMember gMember : groupMemberList) {
-            if (gMember.getGroup_id() == groupId && gMember.getUser_id() == userId){
+            if (gMember.getGroup_id() == groupId && gMember.getUser_id() == userId) {
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
-     * getting a groupMember with the id 
+     * getting a groupMember with the id
+     *
      * @param groupId
      * @return refinedGroupMembers
      */
@@ -129,6 +133,7 @@ public class GroupMemberController implements Serializable {
 
     /**
      * deleting groupMember from the database
+     *
      * @return boolean
      */
     public boolean deleteCurrentGroupmember() {
@@ -157,7 +162,8 @@ public class GroupMemberController implements Serializable {
     }
 
     /**
-     * Deleting from the list 
+     * Deleting from the list
+     *
      * @param groupId
      * @param userId
      * @return boolean
@@ -175,6 +181,7 @@ public class GroupMemberController implements Serializable {
 
     /**
      * Removing from the list using groupId
+     *
      * @param groupId
      * @return boolean
      */
@@ -190,7 +197,8 @@ public class GroupMemberController implements Serializable {
     }
 
     /**
-     *Removing from the list using grupId and userId
+     * Removing from the list using grupId and userId
+     *
      * @param groupId
      * @param userId
      * @return boolean
@@ -208,6 +216,7 @@ public class GroupMemberController implements Serializable {
 
     /**
      * delete from db
+     *
      * @param groupmember
      * @return groupHome
      */
@@ -219,6 +228,7 @@ public class GroupMemberController implements Serializable {
 
     /**
      * getting the number of Members from the list
+     *
      * @param groupId
      * @return count
      */
@@ -233,7 +243,7 @@ public class GroupMemberController implements Serializable {
     }
 
     /**
-     *Updates the groupMemberList with the changes
+     * Updates the groupMemberList with the changes
      */
     public void refreshFromDB() {
         groupMemberList = new ArrayList<>();
