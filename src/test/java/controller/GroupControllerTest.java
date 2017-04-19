@@ -7,6 +7,8 @@ package controller;
 
 import java.util.ArrayList;
 import model.Group;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
